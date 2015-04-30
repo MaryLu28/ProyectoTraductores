@@ -1,18 +1,27 @@
+{------------------------------------------------------------------------------
+	Traductores e Interpretadores
+	Abril - Junio 2015
+	Lanscii Etapa 1
+	Integrantes: 
+	Maria Lourdes Garcia Florez 10-10264
+	Sahid Reyes 10-
+------------------------------------------------------------------------------}
+
 {
 	--module Main (main) where
 }
 
 %wrapper "basic"
 
-$digito = 0-9 -- digitos
-$alfa = [a-zA-Z\_]
-$simbolo = [\#\{\}\-\(\)\/\@\;\=\<\>\|]
-$asciiSinLlaves = [\x00-\xff] # [\{\}]
+$digito = 0-9 ------------------------------> digitos
+$alfa = [a-zA-Z\_] -------------------------> Letras y underscore 
+$simbolo = [\#\{\}\-\(\)\/\@\;\=\<\>\|] ----> 
+$asciiSinLlaves = [\x00-\xff] # [\{\}] -----> Caracteres ascii menos las llaves
 
 tokens :-
 	$white+ ;			
-	"--".* ;
-	"{-" $asciiSinLlaves* "-}"	
+	"--".* ; -----------------------------------------> Comentario de linea
+	"{-" $asciiSinLlaves* "-}"	----------------------> Comentario de Bloque
 	$simbolo { \d -> Let }
 	% { \s -> In }
 	$digit+ { \s -> Int (read s) }

@@ -1,0 +1,18 @@
+Tokens:
+
+Tipos:
+	@	ARROBA
+	!	EXCLAMACION
+	%	PORCENTAJE
+
+Bolleando:
+	true	TRUE
+	false	FALSE
+
+Numeros:
+	$digito+		NUMERO
+
+Identificadores:
+	$alfa [$alfa $digito]*
+
+
