@@ -6,27 +6,36 @@
 
 $digito = 0-9 -- digitos
 $alfa = [a-zA-Z\_]
-$simbolo = [\#\{\}\(\)\;\=\:\?\<\>]
-$lienzos = [\ \|\/\_\-]
+$simbolo = [\#\{\}\(\)\;\=\'\:\?\<\>]
+$lienzos = [\ \|\/\\\_\-]
 $asciiSinLlaves = [\x00-\xff] # [\{\}]
+
 @Integer = "%"
 @Boolean = "!"
-@lienzos = "<"$lienzos">" 
-tokens :-
-	$white+ ;			
-	"--".* ;
-	"{-" $asciiSinLlaves* "-}"	
-	read { \s -> Sym (head s) }
-	write { \s -> Sym (head s) }
-	$digito+ { \s -> Int (read s) }
-	$simbolo { \s -> Sym (head s) }
-	$alfa[$alfa$digito\_\’]* { \s -> Var s }
 
+tokens :-
+
+	$white+ 						;			
+	"--".* 							;
+	"{-"$asciiSinLlaves*"-}"	 	;
+	read 							{ \s -> TokenRead	}
+	write 							{ \s -> TokenWrite	}
+	True							{ \s -> TokenTrue	}
+	False							{ \s -> TokenFalse	}
+	$digito+ 						{ \s -> Int (read s) }
+	$simbolo 						{ \s -> Sym (head s) }
+	$alfa[$alfa$digito\_\’]*		{ \s -> Var s }
+	[\<$lienzos\>]					{ \s -> TokenCanvas	}
 {
 -- Each action has type :: String -> Token
 -- The token type:
-data Token =  
-			Sym Char 
+data Token = 
+			TokenRead
+			|TokenWrite
+			|TokenCanvas
+			|TokenTrue
+			|TokenFalse 
+			|Sym Char 
 			|Var String 
 			|Int Int
 			deriving (Eq,Show)
