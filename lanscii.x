@@ -1,33 +1,34 @@
 {
-	--module Main (main) where
+	module Main(main) where
 }
 
 %wrapper "basic"
 
 $digito = 0-9 -- digitos
 $alfa = [a-zA-Z\_]
-$simbolo = [\#\{\}\-\(\)\/\@\;\=\<\>\|]
+$simbolo = [\#\{\}\(\)\;\=\:\?\<\>]
+$lienzos = [\ \|\/\_\-]
 $asciiSinLlaves = [\x00-\xff] # [\{\}]
-
+@Integer = "%"
+@Boolean = "!"
+@lienzos = "<"$lienzos">" 
 tokens :-
 	$white+ ;			
 	"--".* ;
 	"{-" $asciiSinLlaves* "-}"	
-	$simbolo { \d -> Let }
-	% { \s -> In }
-	$digit+ { \s -> Int (read s) }
-	[\=\+\-\*\/\(\)] { \s -> Sym (head s) }
-	$alpha [$alpha $digit \_ \’]* { \s -> Var s }
+	read { \s -> Sym (head s) }
+	write { \s -> Sym (head s) }
+	$digito+ { \s -> Int (read s) }
+	$simbolo { \s -> Sym (head s) }
+	$alfa[$alfa$digito\_\’]* { \s -> Var s }
 
 {
 -- Each action has type :: String -> Token
 -- The token type:
-data Token =
-			@ 
-			|In 
-			|Sym Char 
+data Token =  
+			Sym Char 
 			|Var String 
-			|% Int
+			|Int Int
 			deriving (Eq,Show)
 
 main = do
