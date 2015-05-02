@@ -12,6 +12,10 @@ $lcurly	= [\{]
 $rcurly	= [\}]
 $equal	= [\=]
 $colon	= [\:]
+$dollar = [\$]
+$plus 	= [\+]
+$minus 	= [\-]
+$division = [\/]
 $percent = [\%]
 $semicolon	= [\;]
 $question	= [\?]
@@ -20,9 +24,9 @@ $rangular	= [\>]
 $exclamation = [\!]
 $lparenthesis = [\(]
 $rparenthesis = [\)]
-$canvas = [\ \|\/\\\_\-]
+$canvas = [\|\/\\\_\-] # 
 $ascii = [\x00-\xff] # [\{\}]
-
+$pipe = [\|]
 @Integer = "%"
 @Boolean = "!"
 
@@ -33,8 +37,8 @@ tokens :-
 	"{-"$ascii*"-}"  		;
 	read           			{ \s -> TokenRead }
 	write           		{ \s -> TokenWrite  }
-	True            		{ \s -> TokenTrue }
-	False           		{ \s -> TokenFalse  }
+	true            		{ \s -> TokenTrue }
+	false           		{ \s -> TokenFalse  }
 	$digit+         		{ \s -> Int (read s) }
 	$null 					{ \s -> TokenNull }
 	$at 					{ \s -> TokenAt }
@@ -50,7 +54,7 @@ tokens :-
 	$exclamation			{ \s -> TokenExclamation }
 	$lparenthesis			{ \s -> TokenLparenthesis }
 	$rparenthesis			{ \s -> TokenRparenthesis }
-	$langular$canvas$rangular	{ \s -> TokenCanvas }
+	$langular[$canvas]$rangular	{ \s -> TokenCanvas }
 	$alpha[$alpha $digit\_\’]*  { \s -> Var s }
 	
 {
