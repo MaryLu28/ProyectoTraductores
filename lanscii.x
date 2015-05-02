@@ -1,3 +1,11 @@
+{------------------------------------------------------------------------------
+    Traductores e Interpretadores
+    Abril - Junio 2015
+    Lanscii Etapa 1
+    Integrantes: 
+    Maria Lourdes Garcia Florez 10-10264
+    Sahid Reyes 10-
+------------------------------------------------------------------------------}
 {
 	module Main(main) where
 }
@@ -29,6 +37,7 @@ tokens :-
 {
 -- Each action has type :: String -> Token
 -- The token type:
+
 data Token = 
 			TokenRead
 			|TokenWrite
@@ -41,6 +50,6 @@ data Token =
 			deriving (Eq,Show)
 
 main = do
-	s <- getContents
-	print (alexScanTokens s)
+    s <- getContents
+    print (alexScanTokens s)
 }
