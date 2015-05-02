@@ -8,77 +8,77 @@
 ------------------------------------------------------------------------------}
 
 {
-	module Lexer
-	( 
-		lexer, alexScanTokens
-	) 
-	where
-	import Tokens (Pos(..), Token(..), isTokenError, printError)
+    module Lexer
+    ( 
+        lexer, alexScanTokens
+    ) 
+    where
+    import Tokens (Pos(..), Token(..), isTokenError, printError)
 }
 
 %wrapper "posn"
 
-$digit	= [0-9]---------------> Difitos
-$alpha	= [a-zA-Z]------------> Caracteres Alfabeticos
-$ascii	= [\x00-\xff]---------> Todos los caracteres de ascii
+$digit  = [0-9]---------------> Difitos
+$alpha  = [a-zA-Z]------------> Caracteres Alfabeticos
+$ascii  = [\x00-\xff]---------> Todos los caracteres de ascii
 
 tokens :-
 
-	----- Espacios y Comentarios -----
-	$white+           		;
-	"--".*            		;
-	"{-"$ascii*"-}"  		;
+    ----- Espacios y Comentarios -----
+    $white+                 ;
+    "--".*                  ;
+    "{-"$ascii*"-}"         ;
 
-	----- Braquets -----
-	"{"							{ TokenLcurly}
-	"}"							{ TokenRcurly}
-	"("							{ TokenLparenthesis}
-	")"							{ TokenRparenthesis}
-	"["							{ TokenLclasp}
-	"]"							{ TokenRclasp}
+    ----- Braquets -----
+    "{"                         { TokenLcurly}
+    "}"                         { TokenRcurly}
+    "("                         { TokenLparenthesis}
+    ")"                         { TokenRparenthesis}
+    "["                         { TokenLclasp}
+    "]"                         { TokenRclasp}
 
-	----- Lienzos -----
-	"<"[\/\\\|\-\_\ ]">"		{ TokenCanvas} -----> falta el lienzo vacio
+    ----- Lienzos -----
+    "<"[\/\\\|\-\_\ ]">"        { TokenCanvas} -----> falta el lienzo vacio
 
-	----- Constantes -----
-	true						{ TokenTrue}
-	false						{ TokenFalse}
-	$digit+						{} ----> no se como poner el token
+    ----- Constantes -----
+    true                        { TokenTrue}
+    false                       { TokenFalse}
+    $digit+                     {} ----> no se como poner el token
 
-	----- Variables ------
-	$alpha[$alpha $digit\_]* 	{ TokenIdentifier}
+    ----- Variables ------
+    $alpha[$alpha $digit\_]*    { TokenIdentifier}
 
-	----- Tipos -----
-	"%"							{ TokenPercent}
-	"@"							{ TokenAt}
-	"!"							{ TokenExclamation}
+    ----- Tipos -----
+    "%"                         { TokenPercent}
+    "@"                         { TokenAt}
+    "!"                         { TokenExclamation}
 
-	----- Operadores -----
-	"+"							{ TokenPlus}
-	"-"							{ TokenMinus}
-	"*"							{ TokenMult}
-	"/"							{ TokenDiv}
-	"/\"						{ TokenAnd}
-	"\/"						{ TokenOr}
-	"^"							{ TokenNot}
-	":"							{ TokenColon}
-	","							{ TokenComma}
-	"$"							{ TokenRotation}
-	"'"							{ TokenTransposition}
+    ----- Operadores -----
+    "+"                         { TokenPlus}
+    "-"                         { TokenMinus}
+    "*"                         { TokenMult}
+    "/"                         { TokenDiv}
+    "/\"                        { TokenAnd}
+    "\/"                        { TokenOr}
+    "^"                         { TokenNot}
+    ":"                         { TokenColon}
+    ","                         { TokenComma}
+    "$"                         { TokenRotation}
+    "'"                         { TokenTransposition}
 
-	----- Relacionales -----
-	"<"							{ TokenLessThan}
-	"<="						{ TokenLessEqual}
-	">"							{ TokenGreaterThan}
-	">="						{ TokenGreaterEqual}
-	"="							{ TokenEqual}
-	"/="						{ TokenNotEqual}
+    ----- Relacionales -----
+    "<"                         { TokenLessThan}
+    "<="                        { TokenLessEqual}
+    ">"                         { TokenGreaterThan}
+    ">="                        { TokenGreaterEqual}
+    "="                         { TokenEqual}
+    "/="                        { TokenNotEqual}
 
-	----- Separadores -----
-	";"							{ TokenSemicolon}
-	"|"							{ TokenPipe}
-	"?"							{ TokenQuestion}
+    ----- Separadores -----
+    ";"                         { TokenSemicolon}
+    "|"                         { TokenPipe}
+    "?"                         { TokenQuestion}
 
-	----- Entrada y Salida -----
-	read						{ TokenRead}
-	write						{ TokenWrite}
+    ----- Entrada y Salida -----
+    read                        { TokenRead}
+    write                       { TokenWrite}
