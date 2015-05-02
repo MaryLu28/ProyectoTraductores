@@ -1,8 +1,8 @@
 Tokens:
 
 Tipos:
-	@	ARROBA
-	!	EXCLAMACION
+	@	AT
+	!	EXCLAMATION MARK
 	%	PORCENTAJE
 
 Bolleando:
@@ -10,9 +10,28 @@ Bolleando:
 	false	FALSE
 
 Numeros:
-	$digito+		NUMERO
+	$digito+	NUMERO
 
 Identificadores:
-	$alfa [$alfa $digito]*
+	$alfa [$alfa $digito]*	IDENTIFICADOR
+
+Lienzos:
+	</> <\> <|> <-> <_> < > #	LIENZO
+
+Entrada y Salida:
+	read	READ
+	write	WRITE
+
+Simbolos:
+	{	LLAVEI
+	}	LLAVED
+	(	PARENTESISI
+	)	PARENTESISD
+	?	INTERROGACION
+	=	ASIGNACION
+	;	PUNTOYCOMA
+	:	DOSPUNTOS
+	|	PIPE
+
 
 
