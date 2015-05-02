@@ -24,6 +24,61 @@ $ascii	= [\x00-\xff]---------> Todos los caracteres de ascii
 
 tokens :-
 
-	$white+           		;----------> Espacios
-	"--".*            		;----------> Comentarios de Linea
-	"{-"$ascii*"-}"  		;----------> Comentarios de Bloque
+	----- Espacios y Comentarios -----
+	$white+           		;
+	"--".*            		;
+	"{-"$ascii*"-}"  		;
+
+	----- Braquets -----
+	"{"							{ TokenLcurly}
+	"}"							{ TokenRcurly}
+	"("							{ TokenLparenthesis}
+	")"							{ TokenRparenthesis}
+	"["							{ TokenLclasp}
+	"]"							{ TokenRclasp}
+
+	----- Lienzos -----
+	"<"[\/\\\|\-\_\ ]">"		{ TokenCanvas} -----> falta el lienzo vacio
+
+	----- Constantes -----
+	true						{ TokenTrue}
+	false						{ TokenFalse}
+	$digit+						{} ----> no se como poner el token
+
+	----- Variables ------
+	$alpha[$alpha $digit\_]* 	{ TokenIdentifier}
+
+	----- Tipos -----
+	"%"							{ TokenPercent}
+	"@"							{ TokenAt}
+	"!"							{ TokenExclamation}
+
+	----- Operadores -----
+	"+"							{ TokenPlus}
+	"-"							{ TokenMinus}
+	"*"							{ TokenMult}
+	"/"							{ TokenDiv}
+	"/\"						{ TokenAnd}
+	"\/"						{ TokenOr}
+	"^"							{ TokenNot}
+	":"							{ TokenColon}
+	","							{ TokenComma}
+	"$"							{ TokenRotation}
+	"'"							{ TokenTransposition}
+
+	----- Relacionales -----
+	"<"							{ TokenLessThan}
+	"<="						{ TokenLessEqual}
+	">"							{ TokenGreaterThan}
+	">="						{ TokenGreaterEqual}
+	"="							{ TokenEqual}
+	"/="						{ TokenNotEqual}
+
+	----- Separadores -----
+	";"							{ TokenSemicolon}
+	"|"							{ TokenPipe}
+	"?"							{ TokenQuestion}
+
+	----- Entrada y Salida -----
+	read						{ TokenRead}
+	write						{ TokenWrite}
