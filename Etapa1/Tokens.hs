@@ -19,70 +19,70 @@ instance Show Pos where
     show (Pos l c) = "(Line " ++ show l ++ ", Col " ++ show c ++ ")"
 
 data Token = 
-		----- Brackets ----
-			TokenLcurly	Pos
-			| TokenRcurly Pos
-			| TokenLparenthesis Pos 
-			| TokenRparenthesis Pos
-			| TokenLclasp Pos
-			| TokenRclasp Pos
-			
-		----- Lienzos -----
-			| TokenCanvas Pos
+	
+	----- Brackets ----
+		  TokenLcurly Pos
+		| TokenRcurly Pos
+		| TokenLparenthesis Pos 
+		| TokenRparenthesis Pos
+		| TokenLclasp Pos
+		| TokenRclasp Pos
+		
+	----- Lienzos -----
+		| TokenCanvas Pos
 
-		----- Constantes ----
-			| TokenTrue Pos
-			| TokenFalse Pos
+	----- Constantes ----
+		| TokenTrue Pos
+		| TokenFalse Pos
 
-		----- Operadores ---			 
-			| TokenPlus Pos
-			| TokenMinus Pos
-			| TokenMult Pos
-			| TokenDiv Pos
-			| TokenAnd Pos
-			| TokenOr Pos
-			| TokenNot Pos
-			| TokenColon Pos
-			| TokenComma Pos
-			| TokenRotation Pos 
-			| TokenTransposition Pos
+	----- Operadores ---			 
+		| TokenPlus Pos
+		| TokenMinus Pos
+		| TokenMult Pos
+		| TokenDiv Pos
+		| TokenAnd Pos
+		| TokenOr Pos
+		| TokenNot Pos
+		| TokenColon Pos
+		| TokenComma Pos
+		| TokenRotation Pos 
+		| TokenTransposition Pos
 
-		----- Relacionales -----
-			| TokenLessThan Pos
-			| TokenLessEqual Pos
-			| TokenGreaterThan Pos
-			| TokenGreaterEqual Pos
-			| TokenEqual Pos
-			| TokenNotEqual Pos
- 
-		----- Separadores -----
-			| TokenSemicolon Pos
-			| TokenPipe Pos
-			| TokenQuestion Pos
- 
-		----- Entrada y Salida -----
-			| TokenRead Pos
-			| TokenWrite Pos
- 
+	----- Relacionales -----
+		| TokenLessThan Pos
+		| TokenLessEqual Pos
+		| TokenGreaterThan Pos
+		| TokenGreaterEqual Pos
+		| TokenEqual Pos
+		| TokenNotEqual Pos
 
-		----- Errores -------
-			| TokenError String Pos
-			| TokenIntError String Pos
+	----- Separadores -----
+		| TokenSemicolon Pos
+		| TokenPipe Pos
+		| TokenQuestion Pos
+
+	----- Entrada y Salida -----
+		| TokenRead Pos
+		| TokenWrite Pos
 
 
-		----- Tipos definidos ------
-			|TokenInt Int Pos 
-			|TokenString String Pos 
-			|TokenIdent String Pos
-			deriving (Eq,Show)
+	----- Errores -------
+		| TokenError String Pos
+		| TokenIntError String Pos
+
+
+	----- Tipos definidos ------
+		| TokenInt Int Pos 
+		| TokenIdentifier String Pos
+		deriving (Eq,Show)
 
 tp :: Token -> Pos
 tp t = case t of
+
 	----- Brackets ----
-	(TokenLcurly p) -> p
+	( TokenLcurly p) -> p
 	( TokenRcurly p) -> p
-	( TokenLparenthesis p) -> p 
-	( TokenLparenthesis p) -> p 
+	( TokenLparenthesis p) -> p  
 	( TokenRparenthesis p) -> p
 	( TokenLclasp p) -> p
 	( TokenRclasp p) -> p
@@ -131,8 +131,7 @@ tp t = case t of
 
 	----- Tipos definidos ------
 	(TokenInt _ p) -> p
-	(TokenString _ p) -> p 
-	(TokenIdent _ p) -> p
+	(TokenIdentifier _ p) -> p
 
 printError :: Token -> IO ()
 printError (TokenError s p) = do
