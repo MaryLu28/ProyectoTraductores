@@ -9,7 +9,8 @@ import System.IO
 
 $digit  = 0-9  -- Digitos
 $alpha  = [a-zA-Z]   --Caracteres Alfabeticos
-$ascii  = [\x00-\xff] --Todos los caracteres de ascii
+$ascii  = [\x00-\xff] # [\-\}]  --Todos los caracteres de ascii
+							    --sin el cierre de comentario
 
 tokens :-
 
@@ -74,6 +75,9 @@ tokens :-
     read           				{ tok (\p s -> TokenRead p)}
 	write           			{ tok (\p s -> TokenWrite p)}
 
+	----- Errores -----------
+	"-}"						{ }
+	[\&\"\°\`\¿\¡,ñ]			{ }
 
 	
 {
