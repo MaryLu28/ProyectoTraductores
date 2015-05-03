@@ -1,11 +1,11 @@
-{------------------------------------------------------------------------------
-    Traductores e Interpretadores
-    Abril - Junio 2015
-    Lanscii Etapa 1 Lexer
-    Integrantes: 
-    Maria Lourdes Garcia Florez 10-10264
-    Sahid Reyes 10-10603
-------------------------------------------------------------------------------}
+-----------------------------------------------------------------------------
+--    Traductores e Interpretadores
+  --  Abril - Junio 2015
+    --Lanscii Etapa 1 Lexer
+ --   Integrantes: 
+   -- Maria Lourdes Garcia Florez 10-10264
+   -- Sahid Reyes 10-10603
+-----------------------------------------------------------------------------
 
 {
     module Lexer
@@ -13,14 +13,14 @@
         lexer, alexScanTokens
     ) 
     where
-    import tok Tokens (Pos(..), Token(..), isTokenError, printError)
+    import Tokens (Pos(..), Token(..), isTokenError, printError)
 }
 
 %wrapper "posn"
 
-$digit  = [0-9]---------------> Difitos
-$alpha  = [a-zA-Z]------------> Caracteres Alfabeticos
-$ascii  = [\x00-\xff]---------> Todos los caracteres de ascii
+$digit  = 0-9  -- Digitos
+$alpha  = [a-zA-Z]   --Caracteres Alfabeticos
+$ascii  = [\x00-\xff] --Todos los caracteres de ascii
 
 tokens :-
 
@@ -38,7 +38,7 @@ tokens :-
     "]"                         {tok TokenRclasp}
 
     ----- Lienzos -----
-    ["<"[\/\\\|\-\_\ ]">" \#]   {tok TokenCanvas}
+    "<"[\/\\\|\-\_\ ]">"   {tok TokenCanvas}
     "#"                         {tok TokenCanvas}
 
     ----- Constantes -----
@@ -88,33 +88,31 @@ tokens :-
     .                           {toq TokenError id}
 
 {
-    {--------------------------------------------------------------------------
+   ---------------------------------------------------------------------
     
-    --------------------------------------------------------------------------}
+    -----------------------------------------------------------------------
     toPos :: AlexPosn -> Pos
     toPos (AlexPn _ line column) = Pos line column
 
-    {--------------------------------------------------------------------------
+    ----------------------------------------------------------------------
 
-    --------------------------------------------------------------------------}
+    ------------------------------------------------------------------------
     tok :: (Pos -> Token) -> AlexPosn -> String -> Token
     tok f p _ = f (toPos p)
 
     toq :: (a -> Pos -> Token) -> (String -> a) -> AlexPosn -> String -> Token
     toq f g p s = f (g s) (toPos p)
 
-    {--------------------------------------------------------------------------
-    
-    --------------------------------------------------------------------------}
     lexInt :: AlexPosn -> String -> Token
     lexInt p s
         n < 2^31    = TokenInt      n (toPos p)
+        | n < 2^31   = TokenInt      n (toPos p)
         | otherwise = TokenIntError s (toPos p)
         where n = (read s :: (Num a, Read a) => a)
 
-    {------------------------------------------------------------------------- 
+    ------------------------------------------------------------------------- 
     
-    --------------------------------------------------------------------------}
+    ---------------------------------------------------------------------
     lexer :: String -> String -> IO ()
     lexer text name = do
         putStrLn $ "Lexer (" ++ name ++ "):\n"
