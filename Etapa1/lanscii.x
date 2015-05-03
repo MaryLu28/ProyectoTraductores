@@ -42,6 +42,7 @@ tokens :-
 
     ----- Lienzos -----
     "<"[\/\\\|\-\_\ ]">"   		{tok (\p s -> TokenCanvas p)}
+    "<>"                        {tok (\p s -> TokenCanvas p)}
     "#"                         {tok (\p s -> TokenCanvas p)}
 
     ----- Constantes -----
@@ -50,7 +51,7 @@ tokens :-
     (\-?)$digit+                {tok (\p s -> Int p (read s))}
 
     ----- Variables ------
-    $alpha[$alpha $digit\_]*    {tok (\p s -> Var p s)}
+    $alpha[$alpha $digit\_]*   {tok (\p s -> Var p s)}
 
     ----- Tipos -----
     "%"                         {tok (\p s -> TokenPercent p)}
