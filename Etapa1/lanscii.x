@@ -1,3 +1,12 @@
+{------------------------------------------------------------------------------
+	Traductores e Interpretadores
+	Abril - Junio 2015
+	Lanscii Etapa 1
+	Integrantes: 
+	Maria Lourdes Garcia Florez 10-10264
+	Sahid Reyes 10-10603
+------------------------------------------------------------------------------}
+
 {
 module Main (main, Token(..), AlexPosn(..), alexScanTokens) where
 import System.Environment   
@@ -7,8 +16,8 @@ import System.IO
 
 %wrapper "posn"
 
-$digit  = 0-9  -- Digitos
-$alpha  = [a-zA-Z]   --Caracteres Alfabeticos
+$digit  = 0-9                   -- Digitos
+$alpha  = [a-zA-Z]              --Caracteres Alfabeticos
 $ascii  = [\x00-\xff] # [\-\}]  --Todos los caracteres de ascii
 							    --sin el cierre de comentario
 
@@ -27,9 +36,12 @@ tokens :-
     "["                         {tok (\p s -> TokenLclasp p)}
     "]"                         {tok (\p s -> TokenRclasp p)}
 
+    ----- Entrada y Salida -----
+    read           				{ tok (\p s -> TokenRead p)}
+	write           			{ tok (\p s -> TokenWrite p)}
+
     ----- Lienzos -----
     "<"[\/\\\|\-\_\ ]">"   		{tok (\p s -> TokenCanvas p)}
-    "<>"						{tok (\p s -> TokenCanvas p)}
     "#"                         {tok (\p s -> TokenCanvas p)}
 
     ----- Constantes -----
@@ -71,9 +83,7 @@ tokens :-
     "|"                         {tok (\p s -> TokenPipe p)}
     "?"                         {tok (\p s -> TokenQuestion p)}
     
-    ----- Entrada y Salida -----
-    read           				{ tok (\p s -> TokenRead p)}
-	write           			{ tok (\p s -> TokenWrite p)}
+
 
 	----- Errores -----------
 	"-}"						{ }
