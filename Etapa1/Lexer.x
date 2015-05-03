@@ -44,7 +44,7 @@ tokens :-
     ----- Constantes -----
     true                        {tok TokenTrue}
     false                       {tok TokenFalse}
-    $digit+                     {LexInt}
+    (\-?)$digit+                {LexInt}
 
     ----- Variables ------
     $alpha[$alpha $digit\_]*    {toq TokenIdentifier id}
@@ -108,7 +108,8 @@ tokens :-
     --------------------------------------------------------------------------}
     lexInt :: AlexPosn -> String -> Token
     lexInt p s
-        n < 2^31    = TokenInt      n (toPos p)
+          n < -2^31 = TokenIntError s (toPos p)
+        | n < 2^31  = TokenInt      n (toPos p)
         | otherwise = TokenIntError s (toPos p)
         where n = (read s :: (Num a, Read a) => a)
 
