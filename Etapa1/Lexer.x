@@ -58,7 +58,7 @@ tokens :-
     "-"                         { TokenMinus}
     "*"                         { TokenMult}
     "/"                         { TokenDiv}
-    "/\"                        { TokenAnd}
+    "/\\"                       { TokenAnd}
     "\/"                        { TokenOr}
     "^"                         { TokenNot}
     ":"                         { TokenColon}
