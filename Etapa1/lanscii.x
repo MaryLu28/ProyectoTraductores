@@ -50,7 +50,7 @@ tokens :-
     "-"                         {tok (\p s -> TokenMinus p)}
     "*"                         {tok (\p s -> TokenMult p)}
     "/"                         {tok (\p s -> TokenDiv p)}
-    "/\\"                       {tok (\p s -> TokenAnd p)}
+    "/\"                        {tok (\p s -> TokenAnd p)}
     "\/"                        {tok (\p s -> TokenOr p)}
     "^"                         {tok (\p s -> TokenNot p)}
     ":"                         {tok (\p s -> TokenColon p)}
