@@ -13,12 +13,12 @@ $ascii  = [\x00-\xff] --Todos los caracteres de ascii
 
 tokens :-
 
-    ----- Espacios y Comentarios -----
+ 	----- Espacios y Comentarios -----
     $white+                 ;
     "--".*                  ;
     "{-"$ascii*"-}"         ;
 
- ----- Braquets -----
+	----- Braquets -----
     "{"                         {tok (\p s -> TokenLcurly p)}
     "}"                         {tok (\p s -> TokenRcurly p)}
     "("                         {tok (\p s -> TokenLparenthesis p)}
@@ -28,6 +28,7 @@ tokens :-
 
     ----- Lienzos -----
     "<"[\/\\\|\-\_\ ]">"   		{tok (\p s -> TokenCanvas p)}
+    "<>"						{tok (\p s -> TokenCanvas p)}
     "#"                         {tok (\p s -> TokenCanvas p)}
 
     ----- Constantes -----
@@ -96,8 +97,7 @@ data Token =
 			| TokenTrue AlexPosn
 			| TokenFalse AlexPosn
 
- 	   
-    	 ----- Tipos -----
+    	------ Tipos -----
 			|TokenPercent AlexPosn
 			|TokenAt AlexPosn
 			|TokenExclamation AlexPosn
@@ -127,7 +127,6 @@ data Token =
 			| TokenSemicolon AlexPosn
 			| TokenPipe AlexPosn
 			| TokenQuestion AlexPosn
-
 
 		----- Entrada y Salida -----
 			| TokenRead AlexPosn
