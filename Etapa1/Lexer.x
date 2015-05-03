@@ -13,7 +13,7 @@
         lexer, alexScanTokens
     ) 
     where
-    import Tokens (Pos(..), Token(..), isTokenError, printError)
+    import tok Tokens (Pos(..), Token(..), isTokenError, printError)
 }
 
 %wrapper "posn"
@@ -30,55 +30,98 @@ tokens :-
     "{-"$ascii*"-}"         ;
 
     ----- Braquets -----
-    "{"                         { TokenLcurly}
-    "}"                         { TokenRcurly}
-    "("                         { TokenLparenthesis}
-    ")"                         { TokenRparenthesis}
-    "["                         { TokenLclasp}
-    "]"                         { TokenRclasp}
+    "{"                         {tok TokenLcurly}
+    "}"                         {tok TokenRcurly}
+    "("                         {tok TokenLparenthesis}
+    ")"                         {tok TokenRparenthesis}
+    "["                         {tok TokenLclasp}
+    "]"                         {tok TokenRclasp}
 
     ----- Lienzos -----
-    "<"[\/\\\|\-\_\ ]">"        { TokenCanvas} -----> falta el lienzo vacio
+    ["<"[\/\\\|\-\_\ ]">" \#]   {tok TokenCanvas}
+    "#"                         {tok TokenCanvas}
 
     ----- Constantes -----
-    true                        { TokenTrue}
-    false                       { TokenFalse}
-    $digit+                     {} ----> no se como poner el token
+    true                        {tok TokenTrue}
+    false                       {tok TokenFalse}
+    $digit+                     {LexInt}
 
     ----- Variables ------
-    $alpha[$alpha $digit\_]*    { TokenIdentifier}
+    $alpha[$alpha $digit\_]*    {toq TokenIdentifier id}
 
     ----- Tipos -----
-    "%"                         { TokenPercent}
-    "@"                         { TokenAt}
-    "!"                         { TokenExclamation}
+    "%"                         {tok TokenPercent}
+    "@"                         {tok TokenAt}
+    "!"                         {tok TokenExclamation}
 
     ----- Operadores -----
-    "+"                         { TokenPlus}
-    "-"                         { TokenMinus}
-    "*"                         { TokenMult}
-    "/"                         { TokenDiv}
-    "/\\"                       { TokenAnd}
-    "\/"                        { TokenOr}
-    "^"                         { TokenNot}
-    ":"                         { TokenColon}
-    ","                         { TokenComma}
-    "$"                         { TokenRotation}
-    "'"                         { TokenTransposition}
+    "+"                         {tok TokenPlus}
+    "-"                         {tok TokenMinus}
+    "*"                         {tok TokenMult}
+    "/"                         {tok TokenDiv}
+    "/\\"                       {tok TokenAnd}
+    "\/"                        {tok TokenOr}
+    "^"                         {tok TokenNot}
+    ":"                         {tok TokenColon}
+    ","                         {tok TokenComma}
+    "$"                         {tok TokenRotation}
+    "'"                         {tok TokenTransposition}
 
     ----- Relacionales -----
-    "<"                         { TokenLessThan}
-    "<="                        { TokenLessEqual}
-    ">"                         { TokenGreaterThan}
-    ">="                        { TokenGreaterEqual}
-    "="                         { TokenEqual}
-    "/="                        { TokenNotEqual}
+    "<"                         {tok TokenLessThan}
+    "<="                        {tok TokenLessEqual}
+    ">"                         {tok TokenGreaterThan}
+    ">="                        {tok TokenGreaterEqual}
+    "="                         {tok TokenEqual}
+    "/="                        {tok TokenNotEqual}
 
     ----- Separadores -----
-    ";"                         { TokenSemicolon}
-    "|"                         { TokenPipe}
-    "?"                         { TokenQuestion}
+    ";"                         {tok TokenSemicolon}
+    "|"                         {tok TokenPipe}
+    "?"                         {tok TokenQuestion}
 
     ----- Entrada y Salida -----
-    read                        { TokenRead}
-    write                       { TokenWrite}
+    read                        {tok TokenRead}
+    write                       {tok TokenWrite}
+
+    ----- Error -----
+    .                           {toq TokenError id}
+
+{
+    {--------------------------------------------------------------------------
+    
+    --------------------------------------------------------------------------}
+    toPos :: AlexPosn -> Pos
+    toPos (AlexPn _ line column) = Pos line column
+
+    {--------------------------------------------------------------------------
+
+    --------------------------------------------------------------------------}
+    tok :: (Pos -> Token) -> AlexPosn -> String -> Token
+    tok f p _ = f (toPos p)
+
+    toq :: (a -> Pos -> Token) -> (String -> a) -> AlexPosn -> String -> Token
+    toq f g p s = f (g s) (toPos p)
+
+    {--------------------------------------------------------------------------
+    
+    --------------------------------------------------------------------------}
+    lexInt :: AlexPosn -> String -> Token
+    lexInt p s
+        n < 2^31    = TokenInt      n (toPos p)
+        | otherwise = TokenIntError s (toPos p)
+        where n = (read s :: (Num a, Read a) => a)
+
+    {------------------------------------------------------------------------- 
+    
+    --------------------------------------------------------------------------}
+    lexer :: String -> String -> IO ()
+    lexer text name = do
+        putStrLn $ "Lexer (" ++ name ++ "):\n"
+        let toks = alexScanTokens text
+
+        if any isTokenError toks
+            then mapM_ printError $ filter isTokenError toks
+            else mapM_ print toks
+        putStrLn ""
+}
