@@ -1,11 +1,11 @@
-{------------------------------------------------------------------------------
-	Traductores e Interpretadores
-	Abril - Junio 2015
-	Lanscii Etapa 1
-	Integrantes: 
-	Maria Lourdes Garcia Florez 10-10264
-	Sahid Reyes 10-10603
-------------------------------------------------------------------------------}
+------------------------------------------------------------------------------
+--	Traductores e Interpretadores
+--	Abril - Junio 2015
+--	Lanscii Etapa 1
+--	Integrantes: 
+--	Maria Lourdes Garcia Florez 10-10264
+--	Sahid Reyes 10-10603
+------------------------------------------------------------------------------
 
 {
 module Main (main, Token(..), AlexPosn(..), alexScanTokens) where
@@ -87,8 +87,8 @@ tokens :-
 
 
 	----- Errores -----------
-	"-}"						{ }
-	[\&\"\°\`\¿\¡,ñ]			{ }
+--	"-}"						{ }
+--	[\&\"\°\`\¿\¡,ñ]			{ }
 
 	
 {
