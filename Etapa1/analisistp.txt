@@ -7,18 +7,19 @@ siones tomadas al construir la expresión regular E para que efectivamente
 sean cumplidas las restricciones de un comentario válido y porqué éstas
 funcionan.
 
-
-$ascii = [x00-xff]
+$ascii = [x00-xff] # [\-\}]
 
 E =  "{-"$ascii*"-}"
 
 Los comentarios comienzan con "{-" y terminan con "-}" por lo que no importa
-cuáles simbolos se encuentren de por medio, la expresión regular estabelece que
-tiene que estar concatenado al inicio y al final con llaves y guión, por eso
-se ha creado una macro llamada $ascii el cual está definido como todos los
-caracteres representables en hexadecimal, desde el x00 hasta el xff.
+cuáles simbolos se encuentren de por medio, a excepción del final del comentario
+"}", por eso se ha creado una macro llamada $ascii el cual está definido como 
+todos los caracteres representables en hexadecimal, desde el x00 hasta el xff 
+sin "-}".
 
 Para el autómata M ver imágen 1. 
+
+
 
 2. Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
 la palabra reservada write y los identificadores de variables del lenguaje
@@ -34,6 +35,7 @@ E1 = $alpha[$alpha$digit\_]*
 Siendo $digit y $alpha macros para números y letras respectivamente.
 
 
+
 3. Dé los diagramas de transición (la representación gráfica) de dos autómantas
 finitos (posiblemente no-determinísticos): M0 y M1 que reconozcan los
 lenguajes L0 y L1 denotados por E0 y E1 respectivamente.
@@ -45,8 +47,8 @@ Para los autómatas M0 y M1 revisar las imágenes 2 y 3 respectivamente.
 4. Proponga el diagrama de transición de un autómata finito no-determinístico
 M2 que reconozca la unión de los lenguajes L(M0) y L(M1).
 
-
 Para el autómata M2 revisar la imágen 4.
+
 
 
 5. Un analizador lexicográfico debe ser capaz de discernir a cuál lenguaje
@@ -55,17 +57,15 @@ acuerdo con esto, cada estado final del autómata M2 debe ser capaz de
 diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
 Inidique lo anterior en cada estado final de M2.
 
-
-
-
+Revisar imágen 4 para visualizar los estados finales del autómata M2.
 
 
 6. La asignación anterior de estados finales a lenguajes debe de crear conflictos
 de reconocimiento, indique cuáles son estos problemas y porqué ocurren.
 
-
-
-
+El token "write" corresponden a su vez con la expresión regular
+definida para los identidicadores, por lo tanto generan conflicto al reconocer
+que tipo de token es.
 
 
 
@@ -73,8 +73,10 @@ de reconocimiento, indique cuáles son estos problemas y porqué ocurren.
 autómata propuesto M2, especificando las palabras que los generan, los
 lenguajes y estados finales involucrados.
 
-
-
+El principal problema del autómata M2 es que permite generar tanto write
+como cualquier otra secuencia de letras y caracteres correspondientes a 
+identificadores, en caso de generar write a través del autómata M1 el lenguaje 
+puede considerarlo de tipo identificador cuando en realidad es de tipo write.
 
 
 
@@ -82,14 +84,16 @@ lenguajes y estados finales involucrados.
 conocimiento desarrollados en las preguntas 6 y 7. Explique brevemente
 su solución y por qué funciona.
 
-
-
+Dentro de las expresiones regulares, se declaró antes que las variables
+de esta forma el lexer reconoce primero el token write antes que el
+token identificador.
 
 
 
 9. ¿Cómo relaciona Ud. el desarrollo de las preguntas 2-8 con la imple-
 mentación de su analizador lexicográfico para el lenguaje Lanscii?
 
-
-
-
+Durante el desarrollo de las preguntas, nos permitia considerar los
+conflictos que generaba la especificación del lenguaje, permitiéndonos
+acomodar la declaracion de las expresiones regulares y los tokens
+correspondientes al lenguaje Lanscii.
