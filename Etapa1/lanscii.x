@@ -16,7 +16,7 @@ import System.IO
 
 %wrapper "posn"
 
-$digit  = 0-9                   -- Digitos
+$digit  = 0-9                   --Digitos
 $alpha  = [a-zA-Z]              --Caracteres Alfabeticos
 $ascii  = [\x00-\xff] # [\-\}]  --Todos los caracteres de ascii
 							    --sin el cierre de comentario

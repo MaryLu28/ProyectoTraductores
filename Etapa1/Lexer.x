@@ -38,7 +38,7 @@ tokens :-
     "]"                         {tok TokenRclasp}
 
     ----- Lienzos -----
-    "<"[\/\\\|\-\_\ ]">"   {tok TokenCanvas}
+    "<"[\/\\\|\-\_\ ]">"        {tok TokenCanvas}
     "#"                         {tok TokenCanvas}
 
     ----- Constantes -----
