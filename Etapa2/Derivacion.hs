@@ -39,10 +39,9 @@ data Declaracion = Declaracion Tipo Var deriving (Eq, Show)
 data Expr
     = Binaria     Bin   Expr  Expr
     | Unaria      Uni    Expr
-    | LienzoC     [Expr]
+    | LienzoC     Lienzo
     | BooleanoC   Bool
     | EnteroC     Int
-    | StringC     String
     | Variable    Var
     deriving (Eq, Show)
 
@@ -56,6 +55,12 @@ data Bin
     | ConcatV
     | And
     | Or
+    | Menor
+    | Mayor
+    | Igual
+    | Desigual
+    | MenorIgual
+    | MayorIgual
     deriving (Eq, Show)
 
 data Uni

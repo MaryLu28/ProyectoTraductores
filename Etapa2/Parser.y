@@ -76,7 +76,6 @@ import Data.List
 
 ----- Precedencia Operadores -----
 -----FALTA--------------------------------------------
-
 %left '+' '-' '*' '/' '~' '%' '&' '\'' ':' '?' '^' '/\\' '\/'
 
 %right  '$' NEG 
@@ -84,11 +83,6 @@ import Data.List
 %nonassoc '<' '<=' '>' '>=' '=' '/='
 
 %%
-
------ Tipos de datos -----
-
-
-
 
 ----- Gramatica-----
 --- FALTA-----------------------------------------------
@@ -130,26 +124,26 @@ ListVar
 		| var								{}
 
 Expr
-		: Expr '+' Expr						{$1 $3}
-  		| Expr '-' Expr						{$1 $3}
-  		| Expr '*' Expr                 	{$1 $3}     
-  		| Expr '/' Expr						{$1 $3}
-  		| Expr '%' Expr						{$1 $3}
-  		| Expr '<' Expr						{$1 $3}
-  		| Expr '<=' Expr             		{$1 $3}    
-  		| Expr '>' Expr						{$1 $3}
-   		| Expr '>=' Expr					{$1 $3}
-  		| Expr '=' Expr                   	{$1 $3}     
-  		| Expr '/=' Expr					{$1 $3}
-  		| Expr '\/' Expr					{$1 $3}
-  		| Expr '/\\' Expr					{$1 $3}
-  		| Expr '~' Expr					    {$1 $3}
-  		| Expr '&' Expr                     {$1 $3}    
-  		| '('Expr')'						{$1}
-  		| Expr'^'							{$1}
-  		| '$'Expr							{$1}
-  		| Expr'\''							{$1}
-  		| '-'Expr %prec NEG					{$1}
+		: Expr '+' Expr						{Binario (Suma $1) $3}
+  		| Expr '-' Expr						{Binario (Resta $1) $3}
+  		| Expr '*' Expr                 	{Binario (Mult $1) $3}     
+  		| Expr '/' Expr						{Binario (Div $1) $3}
+  		| Expr '%' Expr						{Binario (Mod $1) $3}
+  		| Expr '<' Expr						{Binario (Menor $1) $3}
+  		| Expr '<=' Expr             		{Binario (MenorIgual $1) $3}    
+  		| Expr '>' Expr						{Binario (Mayor $1) $3}
+   		| Expr '>=' Expr					{Binario (MayorIgual $1) $3}
+  		| Expr '=' Expr                   	{Binario (Igual $1) $3}     
+  		| Expr '/=' Expr					{Binario (Desigual $1) $3}
+  		| Expr '\/' Expr					{Binario (And $1) $3}
+  		| Expr '/\\' Expr					{Binario (Or $1) $3}
+  		| Expr '~' Expr					    {Binario (ConcatH $1) $3}
+  		| Expr '&' Expr                     {Binario (ConcatV $1) $3}    
+  		| '('Expr')'						{Unario $2}
+  		| Expr'^'							{Unario $1}
+  		| '$'Expr							{Unario $2}
+  		| Expr'\''							{Unario $1}
+  		| '-'Expr %prec NEG					{Unario $2}
   		| true 								{}
   		| false 							{}
   		| num 								{}
@@ -163,6 +157,6 @@ Expr
 		| '#'  								{}
 
 Tipo
-	: '%'									{}
-	| '@'									{}
-	| '!'									{BoolType}
+	: '%'									{Entero}
+	| '@'									{Linezo}
+	| '!'									{Booleano}
