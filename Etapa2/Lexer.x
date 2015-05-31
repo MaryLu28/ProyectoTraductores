@@ -78,8 +78,10 @@ tokens :-
 
     ----- Separadores -----
     ";"                         {tok (\p s -> TokenSemicolon p)}
+    ":"							{tok (\p s -> TokenColon p)}
     "|"                         {tok (\p s -> TokenPipe p)}
     "?"                         {tok (\p s -> TokenQuestion p)}
+    ".."						{tok (\p s -> TokenRange p)}
     
 	
 {
@@ -135,8 +137,10 @@ data Token =
 
 		----- Separadores -----
 			| TokenSemicolon AlexPosn
+			| TokenColon AlexPosn
 			| TokenPipe AlexPosn
 			| TokenQuestion AlexPosn
+			| TokenRange AlexPosn
 
 		----- Entrada y Salida -----
 			| TokenRead AlexPosn

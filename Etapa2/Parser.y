@@ -8,8 +8,8 @@ import Lexer
 }
 
 %name parser
-%tokentype'' {Token}
-%error'' {parseError}
+%tokentype {Token}
+%error {parseError}
 
 %token
 	----- Brackets ----
@@ -43,14 +43,14 @@ import Lexer
 	'-'	 { TokenMinus _ }
 	'*'	 { TokenMult _ }
 	'/'	 { TokenDiv _ }
-	'/\' { TokenAnd _ }
+	'/\\' { TokenAnd _ }
 	'\/' { TokenOr _ }
 	'^'	 { TokenNot _ }
 	'~'	 { TokenTilde _ }
 	'&'	 { TokenAmpersand _ }
 	','	 { TokenComma _ }
 	'$'	 { TokenRotation _ } 
-	'''	 { TokenTransposition _ }
+	'\'' 	 { TokenTransposition _ }
 
 	----- Relacionales -----
 	'<'	 { TokenLessThan _ }
@@ -62,8 +62,10 @@ import Lexer
 
 	----- Separadores -----
 	';'	{ TokenSemicolon _ }
+	':'	{ TokenColon _ }
 	'|'	{ TokenPipe _ }
 	'?'	{ TokenQuestion _ }
+	'..'{ TokenRange _ }
 
 	----- Entrada y Salida -----
 	read  { TokenRead _ }
@@ -75,8 +77,9 @@ import Lexer
 
 ---Precedencia Operadores---
 -----FALTA--------------------------------------------
-%left
-%right
+%left '+' '-' '*' '/' '~' '%' '&' '\'' ':' '?'
+
+%right '^' '$' '-'
 
 %nonassoc '<' '<=' '>' '>='
 
@@ -84,59 +87,74 @@ import Lexer
 
 ---Gramatica-----
 --- FALTA-----------------------------------------------
-Programa: '{' Cuerpo '}'
+Programa: '{' Cuerpo '}'					{Programa $2}
 
 Cuerpo: 
-		Declaracion '|' Instr
-		| Declaracion '|' Programa
-		| Declaracion '|' Instr Programa
+		Declaracion '|' Instr				{}
+		| Declaracion '|' Programa			{}
+		| Declaracion '|' Instr Programa	{}
 
 Instr:
-		read Ident
-		| write Expr
-		| Ident '=' Expr
-		| Instr ';' Instr
-		| Cond
+		read str							{}
+		| write Expr						{}
+		| str '=' Expr						{}
+		| Instr ';' Instr					{}
+		| '('Cond')'						{}
+		| '['Iter']'						{}
 
 Cond:
-		Expr '?' Instr
-		| Expr '?' Instr ':' Instr
-		| '('Cond')'
+		Expr '?' Instr						{$1 $3}
+		| Expr '?' Instr ':' Instr			{$1 $3 $4}
 
 Iter:
+		Expr '|' Instr						{}
+		| Expr '..' Expr '|' Instr			{}
+		| str ':' Expr'..'Expr '|' Instr	{}
 
-Declaracion:
-		Tipo List_Dec
-		| Tipo str
+Declaracion:								
+		Tipo List_Dec						{$1 $2}
+		| Tipo str							{}
 
 List_Dec: 
-		List_Dec
-		| str
+		List_Dec							{}
+		| str								{}
 
 Expr:
-		Expr '+'   Expr 
-  		| Expr '-'   Expr
-  		| Expr '*'   Expr                        
-  		| Expr '/'   Expr
-  		| Expr '%'   Expr
-  		| Expr '<'   Expr
-  		| Expr '<='   Expr                        
-  		| Expr '>'   Expr
-   		| Expr '>='   Expr
-  		| Expr '='   Expr                        
-  		| Expr '/='   Expr
-  		| Expr '\/'   Expr
-  		| Expr '/\'   Expr
-  		| Expr '~'   Expr
-  		| Expr '&'   Expr                        
-  		| '$'Expr
-  		| Expr'´' 
-  		| Expr '*'   Expr                        
-  		| Expr '/'   Expr                       
-  		| '('Expr')'
-  		| '^'Expr
-  		| true
-  		| false
+		Expr '+'   Expr						{}
+  		| Expr '-'   Expr					{}
+  		| Expr '*'   Expr                   {}     
+  		| Expr '/'   Expr					{}
+  		| Expr '%'   Expr					{}
+  		| Expr '<'   Expr					{}
+  		| Expr '<='   Expr             		{}    
+  		| Expr '>'   Expr					{}
+   		| Expr '>='   Expr					{}
+  		| Expr '='   Expr                   {}     
+  		| Expr '/='   Expr					{}
+  		| Expr '\/'  Expr					{}
+  		| Expr '/\\'  Expr					{}
+  		| Expr '~' Expr					    {}
+  		| Expr '&' Expr                     {}    
+  		| Expr '*' Expr                     {}     
+  		| Expr '/' Expr                     {}    
+  		| '('Expr')'						{}
+  		| '^'Expr							{}
+  		| '$'Expr							{}
+  		| Expr '\''							{}
+  		| true 								{}
+  		| false 							{}
+  		| num 								{}
+  		| '-'num							{}
+  		| str 								{}
+		| '< >'   							{}
+		| '<|>' 							{}
+		| '<\>' 							{}
+		| '</>' 							{}
+		| '<_>'								{}
+		| '<->' 							{}
+		| '#'  								{}
 
 Tipo:
-
+	'%'										{}
+	| '@'									{}
+	| '!'									{}
