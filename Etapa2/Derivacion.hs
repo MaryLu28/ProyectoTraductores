@@ -14,13 +14,16 @@ module Derivacion
 import Data.List
 import Lexer
 
-Programa
+data Programa = Programa Cuerpo deriving (Eq)
 
-Cuerpo
+data Cuerpo
+            = Declaracion
+
 
 data Instr
     =
     | Asig
+    | 
     | 
     deriving (Eq, Show)
 
@@ -28,18 +31,19 @@ Cond
 
 Iter
 
-Declaracion                             
+List_Dec    
 
-List_Dec
+data Declaracion = Declaracion Tipo Var deriving (Eq, Show)
+
 
 data Expr
-    = Binaria     Bin    Expr  Expr
+    = Binaria     Bin   Expr  Expr
     | Unaria      Uni    Expr
-    | CanvasC     [Expr]
+    | LienzoC     [Expr]
     | BooleanoC   Bool
     | EnteroC     Int
     | StringC     String
-    | Variable    Id
+    | Variable  Id
     deriving (Eq, Show)
 
 data Bin
@@ -63,5 +67,5 @@ data Uni
 data Tipo 
     = Booleano
     | Entero
-    | Canvas
+    | Lienzo
     | Strings
