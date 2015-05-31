@@ -76,9 +76,10 @@ import Data.List
 
 ----- Precedencia Operadores -----
 -----FALTA--------------------------------------------
-%left '+' '-' '*' '/' '~' '%' '&' '\'' ':' '?' '/\\' '\/'
 
-%right '^' '$' NEG
+%left '+' '-' '*' '/' '~' '%' '&' '\'' ':' '?' '^' '/\\' '\/'
+
+%right  '$' NEG 
 
 %nonassoc '<' '<=' '>' '>=' '=' '/='
 
@@ -91,6 +92,8 @@ import Data.List
 
 ----- Gramatica-----
 --- FALTA-----------------------------------------------
+Comienzo: Cuerpo							{}
+
 Programa
 		: '{' Cuerpo '}'					{$2}
 
@@ -101,14 +104,13 @@ Cuerpo
 Instrs
 		: Instr ';' Instrs					{$1 $3}
 		| Instr 							{$1}						
-
+		| Programa							{$1}
 Instr
 		: read var							{}
 		| write Expr						{}
 		| var '=' Expr						{}
 		| '('Cond')'						{$2}
 		| '['Iter']'						{$2}
-		| Programa							{$1}
 
 Cond
 		: Expr '?' Instrs					{$1 $3}
