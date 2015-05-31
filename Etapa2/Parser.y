@@ -1,10 +1,9 @@
-{''
-module Parser
+{module Parser
 ( parser
-, parsr
 ) where
 
 import Lexer
+import Data.List
 }
 
 %name parser
@@ -85,30 +84,35 @@ import Lexer
 
 %%
 
+--------- Tipos de datos-----------------------------------
+
+
+
+
 ---Gramatica-----
 --- FALTA-----------------------------------------------
-Programa: '{' Cuerpo '}'					{Programa $2}
+Programa: '{' Cuerpo '}'					{$2}
 
 Cuerpo: 
-		Declaracion '|' Instr				{}
-		| Declaracion '|' Programa			{}
-		| Declaracion '|' Instr Programa	{}
+		Declaracion '|' Instr				{$1 $3}
+		| Declaracion '|' Programa			{$1 $3}
+		| Declaracion '|' Instr Programa	{$1 $3 $4}
 
 Instr:
 		read str							{}
 		| write Expr						{}
 		| str '=' Expr						{}
-		| Instr ';' Instr					{}
-		| '('Cond')'						{}
-		| '['Iter']'						{}
+		| Instr ';' Instr					{$1 $3}
+		| '('Cond')'						{$2}
+		| '['Iter']'						{$2}
 
 Cond:
 		Expr '?' Instr						{$1 $3}
 		| Expr '?' Instr ':' Instr			{$1 $3 $4}
 
 Iter:
-		Expr '|' Instr						{}
-		| Expr '..' Expr '|' Instr			{}
+		Expr '|' Instr						{$1 $3}
+		| Expr '..' Expr '|' Instr			{$1 $3 $5}
 		| str ':' Expr'..'Expr '|' Instr	{}
 
 Declaracion:								
@@ -116,31 +120,31 @@ Declaracion:
 		| Tipo str							{}
 
 List_Dec: 
-		List_Dec							{}
+		List_Dec							{$1}
 		| str								{}
 
 Expr:
-		Expr '+'   Expr						{}
-  		| Expr '-'   Expr					{}
-  		| Expr '*'   Expr                   {}     
-  		| Expr '/'   Expr					{}
-  		| Expr '%'   Expr					{}
-  		| Expr '<'   Expr					{}
-  		| Expr '<='   Expr             		{}    
-  		| Expr '>'   Expr					{}
-   		| Expr '>='   Expr					{}
-  		| Expr '='   Expr                   {}     
-  		| Expr '/='   Expr					{}
-  		| Expr '\/'  Expr					{}
-  		| Expr '/\\'  Expr					{}
-  		| Expr '~' Expr					    {}
-  		| Expr '&' Expr                     {}    
-  		| Expr '*' Expr                     {}     
-  		| Expr '/' Expr                     {}    
-  		| '('Expr')'						{}
-  		| '^'Expr							{}
-  		| '$'Expr							{}
-  		| Expr '\''							{}
+		Expr '+'   Expr						{$1 $3}
+  		| Expr '-'   Expr					{$1 $3}
+  		| Expr '*'   Expr                   {$1 $3}     
+  		| Expr '/'   Expr					{$1 $3}
+  		| Expr '%'   Expr					{$1 $3}
+  		| Expr '<'   Expr					{$1 $3}
+  		| Expr '<='   Expr             		{$1 $3}    
+  		| Expr '>'   Expr					{$1 $3}
+   		| Expr '>='   Expr					{$1 $3}
+  		| Expr '='   Expr                   {$1 $3}     
+  		| Expr '/='   Expr					{$1 $3}
+  		| Expr '\/'  Expr					{$1 $3}
+  		| Expr '/\\'  Expr					{$1 $3}
+  		| Expr '~' Expr					    {$1 $3}
+  		| Expr '&' Expr                     {$1 $3} 
+  		| Expr '*' Expr                     {$1 $3}     
+  		| Expr '/' Expr                     {$1 $3}    
+  		| '('Expr')'						{$1}
+  		| '^'Expr							{$1}
+  		| '$'Expr							{$1}
+  		| Expr '\''							{$1}
   		| true 								{}
   		| false 							{}
   		| num 								{}
@@ -157,4 +161,4 @@ Expr:
 Tipo:
 	'%'										{}
 	| '@'									{}
-	| '!'									{}
+	| '!'									{BoolType}
