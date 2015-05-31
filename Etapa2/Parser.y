@@ -90,7 +90,7 @@ import Data.List
 
 
 
------ Gramatica-----
+----- Gramatica -----
 --- FALTA-----------------------------------------------
 Comienzo: Cuerpo							{}
 
