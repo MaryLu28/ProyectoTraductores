@@ -84,16 +84,8 @@ import Data.List
 
 %%
 
-<<<<<<< HEAD
------ Gramatica-----
-=======
------ Tipos de datos -----
-
-
-
-
 ----- Gramatica -----
->>>>>>> bc5f496f2f777c76b8ec4e504360b128f73ba261
+
 --- FALTA-----------------------------------------------
 Comienzo: Cuerpo							{}
 
