@@ -130,12 +130,12 @@ ListVar
 		| var								{}
 
 Expr
-		: Expr '+' Expr						{$1 $3}
-  		| Expr '-' Expr						{$1 $3}
-  		| Expr '*' Expr                 	{$1 $3}     
-  		| Expr '/' Expr						{$1 $3}
-  		| Expr '%' Expr						{$1 $3}
-  		| Expr '<' Expr						{$1 $3}
+		: Expr '+' Expr						{Binaria Suma $1 $3}
+  		| Expr '-' Expr						{Binaria Resta $1 $3}
+  		| Expr '*' Expr                 	{Binaria Mult $1 $3}     
+  		| Expr '/' Expr						{Binaria Div $1 $3}
+  		| Expr '%' Expr						{Binaria Mod $1 $3}
+  		| Expr '<' Expr						{Binaria $1 $3}
   		| Expr '<=' Expr             		{$1 $3}    
   		| Expr '>' Expr						{$1 $3}
    		| Expr '>=' Expr					{$1 $3}
