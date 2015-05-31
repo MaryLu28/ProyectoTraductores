@@ -19,49 +19,49 @@ Programa
 Cuerpo
 
 data Instr
-	=
-	| Asig
-	| 
-	deriving (Eq, Show)
+    =
+    | Asig
+    | 
+    deriving (Eq, Show)
 
 Cond
 
 Iter
 
-Declaracion								
+Declaracion                             
 
 List_Dec
 
 data Expr
-	= Binaria     Bin   Expr  Expr
-	| Unaria      Uni    Expr
-	| CanvasC     [Expr]
-	| BooleanoC   Bool
-	| EnteroC     Int
-	| StringC     String
-	| Variable 	Id
-	deriving (Eq, Show)
+    = Binaria     Bin    Expr  Expr
+    | Unaria      Uni    Expr
+    | CanvasC     [Expr]
+    | BooleanoC   Bool
+    | EnteroC     Int
+    | StringC     String
+    | Variable    Id
+    deriving (Eq, Show)
 
 data Bin
-	= Suma
-	| Resta
-	| Mult
-	| Div
-	| Mod
-	| ConcatH
-	| ConcatV
-	| And
-	| Or
+    = Suma
+    | Resta
+    | Mult
+    | Div
+    | Mod
+    | ConcatH
+    | ConcatV
+    | And
+    | Or
 
 data Uni
-	= Negativo   
-	| Trans   
-	| Not
-	| Rot       
+    = Negativo   
+    | Trans   
+    | Not
+    | Rot       
 
 
 data Tipo 
-	= Booleano
-	| Entero
-	| Canvas
-	| Strings
+    = Booleano
+    | Entero
+    | Canvas
+    | Strings
