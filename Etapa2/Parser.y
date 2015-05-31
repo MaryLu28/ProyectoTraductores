@@ -80,7 +80,7 @@ import Data.List
 
 %right '^' '$' NEG
 
-%nonassoc '<' '<=' '>' '>='
+%nonassoc '<' '<=' '>' '>=' '=' '/='
 
 %%
 
@@ -89,7 +89,7 @@ import Data.List
 
 
 
----Gramatica-----
+----- Gramatica-----
 --- FALTA-----------------------------------------------
 Programa
 		: '{' Cuerpo '}'					{$2}
@@ -142,9 +142,7 @@ Expr
   		| Expr '\/' Expr					{$1 $3}
   		| Expr '/\\' Expr					{$1 $3}
   		| Expr '~' Expr					    {$1 $3}
-  		| Expr '&' Expr                     {$1 $3} 
-  		| Expr '*' Expr                     {$1 $3}     
-  		| Expr '/' Expr                     {$1 $3}    
+  		| Expr '&' Expr                     {$1 $3}    
   		| '('Expr')'						{$1}
   		| Expr'^'							{$1}
   		| '$'Expr							{$1}
