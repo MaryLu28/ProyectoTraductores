@@ -43,7 +43,7 @@ data Expr
     | BooleanoC   Bool
     | EnteroC     Int
     | StringC     String
-    | Variable  Id
+    | Variable    Var
     deriving (Eq, Show)
 
 data Bin
@@ -56,16 +56,18 @@ data Bin
     | ConcatV
     | And
     | Or
+    deriving (Eq, Show)
 
 data Uni
     = Negativo   
     | Trans   
     | Not
     | Rot       
-
+    deriving (Eq, Show)
 
 data Tipo 
     = Booleano
     | Entero
     | Lienzo
     | Strings
+    deriving (Eq, Show)
