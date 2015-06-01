@@ -87,13 +87,13 @@ import Data.List
 ----- Gramatica -----
 
 --- FALTA-----------------------------------------------
-Comienzo: Cuerpo							{}
+Comienzo: Programa							{Programa $1}
 
 Programa
-		: '{' Cuerpo '}'					{$2}
+		: '{' Cuerpo '}'					{Cuerpo $2}
 
 Cuerpo
-		: Declaracion '|' Instrs			{$1 $3}
+		: Declaracion '|' Instrs			{Declaracion Instr $1 $3}
 		| Instrs							{$1}
 
 Instrs
