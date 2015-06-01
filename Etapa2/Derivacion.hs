@@ -1,14 +1,17 @@
 module Derivacion
-( Programa(..)
+(Comienzo(..) 
+,Programa(..)
 , Instr(..)
-, Condicion(..)
-, Instruccion(..)
-, Lista_Dec(..)
+, Cuerpo(..)
+, Instr(..)
 , Declaracion(..)
 , Tipo(..)
 , Expr(..)
 , Binario(..)
 , Unario(..)
+, Bin(..)
+, Uni(..)
+, Var(..)
 ) where
 
 import Data.List
@@ -18,8 +21,12 @@ data Comienzo = Comienzo Programa deriving (Eq, Show)
 
 data Programa = Programa Cuerpo deriving (Eq, Show)
 
-data Cuerpo = Declaracion (Maybe Tipo [Var]) Instr deriving (Eq, Show)
-	
+data Var = Var String deriving (Eq, Show)
+
+data Cuerpo = (Maybe Declaracion) Instr deriving (Eq, Show)
+
+data Declaracion = Tipo Var (Maybe [Var]) deriving (Eq, Show)
+
 data Instr
 	= Asign    Var Expr
 	| Read     Var
@@ -31,7 +38,7 @@ data Instr
 data Expr
 	= Binaria     Bin   Expr  Expr
 	| Unaria      Uni    Expr
-	| LienzoC     Lienzo
+	| LienzoC     Expr
 	| BooleanoC   Bool
 	| EnteroC     Int
 	| Variable 	  Var
@@ -62,5 +69,3 @@ data Tipo
 	| Lienzo
 	| Strings
 	deriving (Eq, Show)
-
-data Var = Var String deriving (Eq)
