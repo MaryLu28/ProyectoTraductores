@@ -33,43 +33,35 @@ Declaracion
 List_Dec
 
 data Expr
-    = Binaria     Bin   Expr  Expr
-    | Unaria      Uni    Expr
-    | LienzoC     Lienzo
-    | BooleanoC   Bool
-    | EnteroC     Int
-    | Variable    Var
-    deriving (Eq, Show)
+	= Binaria     Bin   Expr  Expr
+	| Unaria      Uni    Expr
+	| CanvasC     [Expr]
+	| BooleanoC   Bool
+	| EnteroC     Int
+	| StringC     String
+	| Variable 	Id
+	deriving (Eq, Show)
 
 data Bin
-    = Suma
-    | Resta
-    | Mult
-    | Div
-    | Mod
-    | ConcatH
-    | ConcatV
-    | And
-    | Or
-    | Menor
-    | Mayor
-    | Igual
-    | Desigual
-    | MenorIgual
-    | MayorIgual
-    deriving (Eq, Show)
-
+	= Suma
+	| Resta
+	| Mult
+	| Div
+	| Mod
+	| ConcatH
+	| ConcatV
+	| And
+	| Or
 
 data Uni
 	= Negativo   
 	| Trans   
 	| Not
 	| Rot       
-    deriving (Eq, Show)
+
 
 data Tipo 
 	= Booleano
 	| Entero
-	| Lienzo
+	| Canvas
 	| Strings
-    deriving (Eq, Show)

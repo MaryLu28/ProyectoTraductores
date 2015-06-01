@@ -125,30 +125,30 @@ ListVar
 		| var								{}
 
 Expr
-		: Expr '+' Expr						{Binario (Suma $1) $3}
-  		| Expr '-' Expr						{Binario (Resta $1) $3}
-  		| Expr '*' Expr                 	{Binario (Mult $1) $3}     
-  		| Expr '/' Expr						{Binario (Div $1) $3}
-  		| Expr '%' Expr						{Binario (Mod $1) $3}
-  		| Expr '<' Expr						{Binario (Menor $1) $3}
-  		| Expr '<=' Expr             		{Binario (MenorIgual $1) $3}    
-  		| Expr '>' Expr						{Binario (Mayor $1) $3}
-   		| Expr '>=' Expr					{Binario (MayorIgual $1) $3}
-  		| Expr '=' Expr                   	{Binario (Igual $1) $3}     
-  		| Expr '/=' Expr					{Binario (Desigual $1) $3}
-  		| Expr '\/' Expr					{Binario (And $1) $3}
-  		| Expr '/\\' Expr					{Binario (Or $1) $3}
-  		| Expr '~' Expr					    {Binario (ConcatH $1) $3}
-  		| Expr '&' Expr                     {Binario (ConcatV $1) $3}    
-  		| '('Expr')'						{Unario $2}
-  		| Expr'^'							{Unario $1}
-  		| '$'Expr							{Unario $2}
-  		| Expr'\''							{Unario $1}
-  		| '-'Expr %prec NEG					{Unario $2}
-  		| true 								{}
-  		| false 							{}
-  		| num 								{}
-  		| var 								{}
+		: Expr '+' Expr						{Binaria Suma $1 $3}
+  		| Expr '-' Expr						{Binaria Resta $1 $3}
+  		| Expr '*' Expr                 	{Binaria Mult $1 $3}     
+  		| Expr '/' Expr						{Binaria Div $1 $3}
+  		| Expr '%' Expr						{Binaria Mod $1 $3}
+  		| Expr '<' Expr						{Binaria Menor $1 $3}
+  		| Expr '<=' Expr             		{Binaria MenorIgual $1 $3}    
+  		| Expr '>' Expr						{Binaria Mayor $1 $3}
+   		| Expr '>=' Expr					{Binaria MayorIgual $1 $3}
+  		| Expr '=' Expr                   	{Binaria Igual $1 $3}     
+  		| Expr '/=' Expr					{Binaria Desigual $1) $3}
+  		| Expr '\/' Expr					{Binaria Or $1 $3}
+  		| Expr '/\\' Expr					{Binaria And $1 $3}
+  		| Expr '~' Expr					    {Binaria ConcatH $1 $3}
+  		| Expr '&' Expr                     {Binaria ConcatV $1 $3}    
+  		| '('Expr')'						{$2}
+  		| Expr'^'							{Unaria Not $1}
+  		| '$'Expr							{Unaria Rot $2}
+  		| Expr'\''							{Unaria Trans $1}
+  		| '-'Expr %prec NEG					{Unaria Negativo $2}
+  		| true 								{True}
+  		| false 							{False}
+  		| num 								{EnteroC (extraerI $1)}
+  		| var 								{Variable (extraerV $1)}
 		| '< >'   							{}
 		| '<|>' 							{}
 		| '<\>' 							{}
@@ -161,3 +161,11 @@ Tipo
 	: '%'									{Entero}
 	| '@'									{Linezo}
 	| '!'									{Booleano}
+
+{
+extraerV :: Token -> Int
+extraer (TokenVar s _)  = s
+
+extraerI' :: Token -> Int
+extraerI (TokenInt n _) = n
+}

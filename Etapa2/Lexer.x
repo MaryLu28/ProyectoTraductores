@@ -64,6 +64,7 @@ tokens :-
     "\/"                        {tok (\p s -> TokenOr p)}
     "^"                         {tok (\p s -> TokenNot p)}
     "~"                         {tok (\p s -> TokenTilde p)}
+    ","                         {tok (\p s -> TokenComma p)}
     "$"                         {tok (\p s -> TokenRotation p)}
     "'"                         {tok (\p s -> TokenTransposition p)}
 	"&"                         {tok (\p s -> TokenAmpersand p)}
