@@ -121,8 +121,8 @@ Declaracion
 		| Tipo ListVar						{}
 
 ListVar
-		: var ListVar						{$1}
-		| var								{}
+		: var ListVar						{Variable (extraerV $1) : $2}
+		| var								{[Variable (extraerV $1)]}
 
 Expr
 		: Expr '+' Expr						{Binaria Suma $1 $3}
@@ -159,7 +159,7 @@ Expr
 
 Tipo
 	: '%'									{Entero}
-	| '@'									{Linezo}
+	| '@'									{Canvas}
 	| '!'									{Booleano}
 
 {
