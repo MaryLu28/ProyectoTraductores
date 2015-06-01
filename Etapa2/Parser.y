@@ -99,12 +99,12 @@ Cuerpo
 Instrs
 		: Instr ';' Instrs					{$1 : $3}
 		| Instr 							{$1}						
-		| Programa							{$1}
+		| Programa							{Programa $1}
 Instr
 		: read var							{Read Variable (extraerV $2)}
 		| write Expr						{Write $2}
 		| var '=' Expr						{Asign Variable (extraerV $1) $3}
-		| '('Cond')'						{$2}
+		| '('Cond')'						{Instr Cond $2}
 		| '['Iter']'						{$2}
 
 Cond

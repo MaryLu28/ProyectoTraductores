@@ -1,0 +1,16 @@
+------------------------------------------------------------------------------
+--	Traductores e Interpretadores
+--	Abril - Junio 2015
+--	Lanscii Etapa 1
+--	Integrantes: 
+--	Maria Lourdes Garcia Florez 10-10264
+--	Sahid Reyes 10-10603
+------------------------------------------------------------------------------
+
+El proyecto esta implementado en Haskell usando la herramienta Alex con el 
+wrapper Posn. 
+Se nos hizo un poco dificil comprender la sintaxis del lenguaje y de la 
+herramienta Alex, debido a la escaza documentacion existente, lo que nos retrazo y nos impidio hacer la correcta impresion 
+de los Tokens y los errores. 
+Debido a esto el estado actual del proyecto es incompleto ya que no posee 
+verificacion de errores ni una correcta impresion de los Tokens.
