@@ -108,8 +108,8 @@ Instr
 		| '['Iter']'						{$2}
 
 Cond
-		: Expr '?' Instrs					{If $1 $3}
-		| Expr '?' Instrs ':' Instrs		{If $1 $3 $4}
+		: Expr '?' Instrs					{Cond $1 $3}
+		| Expr '?' Instrs ':' Instrs		{Cond $1 $3 $4}
 
 Iter
 		: Expr '|' Instrs					{$1 $3}
@@ -117,8 +117,8 @@ Iter
 		| var ':' Expr '..' Expr '|' Instrs	{}
 
 Declaracion
-		: Tipo ListVar Declaracion			{Declaracion $1 $2}
-		| Tipo ListVar						{}
+		: Tipo ListVar Declaracion			{Declaracion ($1 $2) : $3}
+		| Tipo ListVar						{$1 $2}
 
 ListVar
 		: var ListVar						{Variable (extraerV $1) : $2}
@@ -149,13 +149,13 @@ Expr
   		| false 							{False}
   		| num 								{EnteroC (extraerI $1)}
   		| var 								{Variable (extraerV $1)}
-		| '< >'   							{}
-		| '<|>' 							{}
-		| '<\>' 							{}
-		| '</>' 							{}
-		| '<_>'								{}
-		| '<->' 							{}
-		| '#'  								{}
+		| '< >'   							{LienzoC (extraerC$1)}
+		| '<|>' 							{LienzoC (extraerC$1)}
+		| '<\>' 							{LienzoC (extraerC$1)}
+		| '</>' 							{LienzoC (extraerC$1)}
+		| '<_>'								{LienzoC (extraerC$1)}
+		| '<->' 							{LienzoC (extraerC$1)}
+		| '#'  								{LienzoC (extraerC$1)}
 
 Tipo
 	: '%'									{Entero}
