@@ -14,20 +14,18 @@ module Derivacion
 import Data.List
 import Lexer
 
-data Comienzo = Programa deriving (Eq)
+data Comienzo = Comienzo Programa deriving (Eq, Show)
 
-data Programa = Cuerpo deriving (Eq)
+data Programa = Programa Cuerpo deriving (Eq, Show)
 
-data Cuerpo =  Declaracion Instr deriving (Eq)
-
-data Declaracion = Declaracion Tipo Var deriving (Eq, Show)
-
+data Cuerpo = Declaracion (Maybe Tipo [Var]) Instr deriving (Eq, Show)
+	
 data Instr
 	= Asign    Var Expr
-	| Bloque   [Declaracion] [Instr]
 	| Read     Var
 	| Write    [Expr]
-	| If       Expr Instr (Maybe Instr)
+	| Cond     Expr Instr (Maybe Instr)
+--	| Iter	   Expr Instr 
 	deriving (Eq, Show)
 
 data Expr
@@ -36,7 +34,6 @@ data Expr
 	| LienzoC     Lienzo
 	| BooleanoC   Bool
 	| EnteroC     Int
-	| StringC     String
 	| Variable 	  Var
 	deriving (Eq, Show)
 

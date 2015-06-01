@@ -87,14 +87,14 @@ import Data.List
 ----- Gramatica -----
 
 --- FALTA-----------------------------------------------
-Comienzo: Programa							{Programa $1}
+Comienzo: Programa							{Comienzo $1}
 
 Programa
-		: '{' Cuerpo '}'					{Cuerpo $2}
+		: '{' Cuerpo '}'					{Programa $2}
 
 Cuerpo
 		: Declaracion '|' Instrs			{Declaracion Instr $1 $3}
-		| Instrs							{$1}
+		| Instrs							{Cuerpo Instrs $1}
 
 Instrs
 		: Instr ';' Instrs					{$1 $3}
@@ -159,13 +159,16 @@ Expr
 
 Tipo
 	: '%'									{Entero}
-	| '@'									{Canvas}
+	| '@'									{Lienzo}
 	| '!'									{Booleano}
 
 {
-extraerV :: Token -> Int
+extraerV :: Token -> String
 extraer (TokenVar s _)  = s
 
 extraerI' :: Token -> Int
 extraerI (TokenInt n _) = n
+
+extraerC :: Token -> String
+extraerC (TokenCanvas l _) = l
 }
