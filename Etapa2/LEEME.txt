@@ -12,5 +12,5 @@ wrapper Posn para el Lexer y Happy para el Parser.
 Por falta de tiempo y de comprension del lenguaje Haskell, no logramos hacer
 la impresion del AST y hay ciertos errores en el Main con respecto al .hs 
 generado por happy que no supimos resolver. 
-Debido a esto el estado actual del proyecto es incompleto ya que no se imprime 
-el AST y
+Debido a esto el estado actual del proyecto es incompleto ya que no se logro 
+incorporar el Parser al Main ni tampoco imprir el AST.
