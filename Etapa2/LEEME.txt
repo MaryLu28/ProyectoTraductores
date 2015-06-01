@@ -1,16 +1,16 @@
 ------------------------------------------------------------------------------
 --	Traductores e Interpretadores
 --	Abril - Junio 2015
---	Lanscii Etapa 1
+--	Lanscii Etapa 2
 --	Integrantes: 
 --	Maria Lourdes Garcia Florez 10-10264
---	Sahid Reyes 10-10603
+--	Sahid Gabriel Reyes Tabja 10-10603
 ------------------------------------------------------------------------------
 
-El proyecto esta implementado en Haskell usando la herramienta Alex con el 
+El proyecto está implementado en Haskell usando la herramienta Alex con el 
 wrapper Posn para el Lexer y Happy para el Parser. 
-Por falta de tiempo y de comprension del lenguaje Haskell, no logramos hacer
-la impresion del AST y hay ciertos errores en el Main con respecto al .hs 
+Por falta de tiempo y de comprensión del lenguaje Haskell, no logramos hacer
+la impresión del AST y hay ciertos errores en el Main con respecto al .hs 
 generado por happy que no supimos resolver. 
-Debido a esto el estado actual del proyecto es incompleto ya que no se logro 
-incorporar el Parser al Main ni tampoco imprir el AST.
+Debido a esto el estado actual del proyecto es incompleto ya que no se logró 
+incorporar el Parser al Main ni tampoco imprimir el AST.
