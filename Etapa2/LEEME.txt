@@ -8,9 +8,9 @@
 ------------------------------------------------------------------------------
 
 El proyecto esta implementado en Haskell usando la herramienta Alex con el 
-wrapper Posn. 
-Se nos hizo un poco dificil comprender la sintaxis del lenguaje y de la 
-herramienta Alex, debido a la escaza documentacion existente, lo que nos retrazo y nos impidio hacer la correcta impresion 
-de los Tokens y los errores. 
-Debido a esto el estado actual del proyecto es incompleto ya que no posee 
-verificacion de errores ni una correcta impresion de los Tokens.
+wrapper Posn para el Lexer y Happy para el Parser. 
+Por falta de tiempo y de comprension del lenguaje Haskell, no logramos hacer
+la impresion del AST y hay ciertos errores en el Main con respecto al .hs 
+generado por happy que no supimos resolver. 
+Debido a esto el estado actual del proyecto es incompleto ya que no se imprime 
+el AST y
