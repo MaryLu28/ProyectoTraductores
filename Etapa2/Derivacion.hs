@@ -7,8 +7,8 @@ module Derivacion
 , Declaracion(..)
 , Tipo(..)
 , Expr(..)
-, Binario(..)
-, Unario(..)
+--, Binaria(..)
+--, Unaria(..)
 , Bin(..)
 , Uni(..)
 , Var(..)
@@ -23,9 +23,9 @@ data Programa = Programa Cuerpo deriving (Eq, Show)
 
 data Var = Var String deriving (Eq, Show)
 
-data Cuerpo = (Maybe Declaracion) Instr deriving (Eq, Show)
+data Cuerpo = Cuerpo (Maybe Declaracion) Instr deriving (Eq, Show)
 
-data Declaracion = Tipo Var (Maybe [Var]) deriving (Eq, Show)
+data Declaracion = Tipo [Var] deriving (Eq, Show)
 
 data Instr
 	= Asign    Var Expr

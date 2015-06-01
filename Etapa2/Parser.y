@@ -93,8 +93,8 @@ Programa
 		: '{' Cuerpo '}'					{Programa $2}
 
 Cuerpo
-		: Declaracion '|' Instrs			{Declaracion Instr $1 $3}
-		| Instrs							{Cuerpo Instrs $1}
+		: Declaracion '|' Instrs			{Cuerpo $1 $3}
+		| Instrs							{Cuerpo $1}
 
 Instrs
 		: Instr ';' Instrs					{$1 : $3}
