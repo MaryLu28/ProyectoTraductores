@@ -97,19 +97,19 @@ Cuerpo
 		| Instrs							{$1}
 
 Instrs
-		: Instr ';' Instrs					{$1 $3}
+		: Instr ';' Instrs					{$1 : $3}
 		| Instr 							{$1}						
 		| Programa							{$1}
 Instr
-		: read var							{}
-		| write Expr						{}
-		| var '=' Expr						{}
+		: read var							{Read Variable (extraerV $2)}
+		| write Expr						{Write $2}
+		| var '=' Expr						{Asign Variable (extraerV $1) $3}
 		| '('Cond')'						{$2}
 		| '['Iter']'						{$2}
 
 Cond
-		: Expr '?' Instrs					{$1 $3}
-		| Expr '?' Instrs ':' Instrs		{$1 $3 $4}
+		: Expr '?' Instrs					{If $1 $3}
+		| Expr '?' Instrs ':' Instrs		{If $1 $3 $4}
 
 Iter
 		: Expr '|' Instrs					{$1 $3}
@@ -117,7 +117,7 @@ Iter
 		| var ':' Expr '..' Expr '|' Instrs	{}
 
 Declaracion
-		: Tipo ListVar Declaracion			{$1 $2}
+		: Tipo ListVar Declaracion			{Declaracion $1 $2}
 		| Tipo ListVar						{}
 
 ListVar
