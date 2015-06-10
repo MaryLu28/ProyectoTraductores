@@ -75,92 +75,100 @@ import Data.List
 	num	{ TokenInt _ _ }
 
 ----- Precedencia Operadores -----
------FALTA--------------------------------------------
-%left '+' '-' '*' '/' '~' '%' '&' '\'' ':' '?' '^' '/\\' '\/'
 
-%right  '$' NEG 
+----- Booleanos -----
+%left '\/'
+%left '/\\'
+%left '^'
 
-%nonassoc '<' '<=' '>' '>=' '=' '/='
+----- Relacionales -----
+%nonassoc '<' '<=' '>' '>=' 
+%nonassoc '=' '/='
 
+----- Enteros -----
+%right NEG
+%left '*' '/' '%'
+%left '+' '-'
+
+----- Lienzos -----
+%left '~' '&'
+%right '$'
+%left '\'' 
+
+----- Condicional ------
+%left ':' '?'   
+
+%nonassoc INT
 %%
 
 ----- Gramatica -----
 
 --- FALTA-----------------------------------------------
-Comienzo: Programa							{Comienzo $1}
+Comienzo: Programa								{Comienzo $1}
 
 Programa
-		: '{' Cuerpo '}'					{Programa $2}
-
-Cuerpo
-		: Declaracion '|' Instrs			{Cuerpo $1 $3}
-		| Instrs							{Cuerpo $1}
+		:'{' Declaracion '|' Instrs '}'			{Programa $2 $4}
+		|'{' Instrs '}'							{Programa $2}
 
 Instrs
-		: Instr ';' Instrs					{$1 : $3}
-		| Instr 							{$1}						
-		| Programa							{Programa $1}
+		: Instr ';' Instrs						{$1 : $3}
+		| Instr 								{$1}						
+		| Programa								{Programa $1}
 Instr
-		: read var							{Read Variable (extraerV $2)}
-		| write Expr						{Write $2}
-		| var '=' Expr						{Asign Variable (extraerV $1) $3}
-		| '('Cond')'						{Instr Cond $2}
-		| '['Iter']'						{$2}
-
-Cond
-		: Expr '?' Instrs					{Cond $1 $3}
-		| Expr '?' Instrs ':' Instrs		{Cond $1 $3 $4}
-
-Iter
-		: Expr '|' Instrs					{$1 $3}
-		| Expr '..' Expr '|' Instrs			{$1 $3 $5}
-		| var ':' Expr '..' Expr '|' Instrs	{}
+		: read var								{Read Variable (extraerV $2)}
+		| write Expr							{Write $2}
+		| var '=' Expr							{Asign Variable (extraerV $1) $3}
+		| '('Expr '?' Instrs')'					{Cond $2 $4}
+		| '('Expr '?' Instrs ':' Instrs')'		{Cond $2 $4 $5}
+		| '['Expr '|' Instrs']'					{$2 $4}
+		| '['Expr '..' Expr '|' Instrs']'		{$2 $4 $6}
+		| '['var ':' Expr '..' Expr '|' Instrs']'{}
 
 Declaracion
-		: Tipo ListVar Declaracion			{Declaracion ($1 $2) : $3}
-		| Tipo ListVar						{$1 $2}
+		: Tipo ListVar Declaracion				{Declaracion ($1 $2) : $3}
+		| Tipo ListVar							{$1 $2}
 
 ListVar
-		: var ListVar						{Variable (extraerV $1) : $2}
-		| var								{[Variable (extraerV $1)]}
+		: var ListVar							{Variable (extraerV $1) : $2}
+		| var									{[Variable (extraerV $1)]}
 
 Expr
-		: Expr '+' Expr						{Binaria Suma $1 $3}
-  		| Expr '-' Expr						{Binaria Resta $1 $3}
-  		| Expr '*' Expr                 	{Binaria Mult $1 $3}     
-  		| Expr '/' Expr						{Binaria Div $1 $3}
-  		| Expr '%' Expr						{Binaria Mod $1 $3}
-  		| Expr '<' Expr						{Binaria Menor $1 $3}
-  		| Expr '<=' Expr             		{Binaria MenorIgual $1 $3}    
-  		| Expr '>' Expr						{Binaria Mayor $1 $3}
-   		| Expr '>=' Expr					{Binaria MayorIgual $1 $3}
-  		| Expr '=' Expr                   	{Binaria Igual $1 $3}     
-  		| Expr '/=' Expr					{Binaria Desigual $1) $3}
-  		| Expr '\/' Expr					{Binaria Or $1 $3}
-  		| Expr '/\\' Expr					{Binaria And $1 $3}
-  		| Expr '~' Expr					    {Binaria ConcatH $1 $3}
-  		| Expr '&' Expr                     {Binaria ConcatV $1 $3}    
-  		| '('Expr')'						{$2}
-  		| Expr'^'							{Unaria Not $1}
-  		| '$'Expr							{Unaria Rot $2}
-  		| Expr'\''							{Unaria Trans $1}
-  		| '-'Expr %prec NEG					{Unaria Negativo $2}
-  		| true 								{True}
-  		| false 							{False}
-  		| num 								{EnteroC (extraerI $1)}
-  		| var 								{Variable (extraerV $1)}
-		| '< >'   							{LienzoC (extraerC$1)}
-		| '<|>' 							{LienzoC (extraerC$1)}
-		| '<\>' 							{LienzoC (extraerC$1)}
-		| '</>' 							{LienzoC (extraerC$1)}
-		| '<_>'								{LienzoC (extraerC$1)}
-		| '<->' 							{LienzoC (extraerC$1)}
-		| '#'  								{LienzoC (extraerC$1)}
+		: Expr '+' Expr							{Binaria Suma $1 $3}
+  		| Expr '-' Expr							{Binaria Resta $1 $3}
+  		| Expr '*' Expr                 		{Binaria Mult $1 $3}     
+  		| Expr '/' Expr							{Binaria Div $1 $3}
+  		| Expr '%' Expr							{Binaria Mod $1 $3}
+  		| Expr '<' Expr							{Binaria Menor $1 $3}
+  		| Expr '<=' Expr             			{Binaria MenorIgual $1 $3}    
+  		| Expr '>' Expr							{Binaria Mayor $1 $3}
+   		| Expr '>=' Expr						{Binaria MayorIgual $1 $3}
+  		| Expr '=' Expr                   		{Binaria Igual $1 $3}     
+  		| Expr '/=' Expr						{Binaria Desigual $1) $3}
+  		| Expr '\/' Expr						{Binaria Or $1 $3}
+  		| Expr '/\\' Expr						{Binaria And $1 $3}
+  		| Expr '~' Expr					    	{Binaria ConcatH $1 $3}
+  		| Expr '&' Expr                     	{Binaria ConcatV $1 $3}    
+  		| '('Expr')'							{$2}
+  		| Expr'^'								{Unaria Not $1}
+  		| '$'Expr								{Unaria Rot $2}
+  		| Expr'\''								{Unaria Trans $1}
+  		| '-'Expr %prec NEG						{Unaria Negativo $2}
+  		| true 									{True}
+  		| false 								{False}
+  		| num 									{EnteroC (extraerI $1)}
+  		| var 									{Variable (extraerV $1)}
+		| '< >'   								{LienzoC (extraerC$1)}
+		| '<|>' 								{LienzoC (extraerC$1)}
+		| '<\>' 								{LienzoC (extraerC$1)}
+		| '</>' 								{LienzoC (extraerC$1)}
+		| '<_>'									{LienzoC (extraerC$1)}
+		| '<->' 								{LienzoC (extraerC$1)}
+		| '#'  									{LienzoC (extraerC$1)}
 
 Tipo
-	: '%'									{Entero}
-	| '@'									{Lienzo}
-	| '!'									{Booleano}
+	: '%' %prec INT								{Entero}
+	| '@'										{Lienzo}
+	| '!'										{Booleano}
 
 {
 extraerV :: Token -> String
