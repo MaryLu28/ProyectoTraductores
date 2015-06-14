@@ -2,6 +2,7 @@ module Main(main) where
 
 import Parser
 import Lexer
+import SymbolChecking
 import System.Environment   
 import System.IO
 

@@ -16,9 +16,6 @@ import Data.Maybe
 import Derivacion
 --import Parser
 
-data Tipo = Entero | Booleano | Lienzo 
-    deriving (Show) 
-
 type Mapa = M.Map String Tipo
 
 type Pila = [Mapa]

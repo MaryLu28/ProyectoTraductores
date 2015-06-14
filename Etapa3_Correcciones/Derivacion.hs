@@ -5,6 +5,7 @@ module Derivacion
 , Expr(..)
 , Bin(..)
 , Uni(..)
+, Tipo(..)
 , parseError
 ) where
 
@@ -13,6 +14,10 @@ import Lexer
 
 data Programa = Programa Instr deriving (Eq, Show)
 
+data Tipo 
+	= Int
+	| Canvas
+	| Bool
 
 data Declaracion
 	= Entero [String]
@@ -42,15 +47,19 @@ data Expr
 	deriving (Eq, Show)
 
 data Bin
+	-- Operaciones sobre enteros
 	= Suma
 	| Resta
 	| Mult
 	| Div
 	| Mod
+	-- Operaciones sobre lienzos
 	| ConcatH
 	| ConcatV
+	-- Operaciones sobre booleanos
 	| And 
 	| Or
+	-- Operaciones comparativas
 	| Menor
 	| MenorIgual
 	| Mayor
@@ -60,11 +69,23 @@ data Bin
 	deriving (Eq, Show)
 
 data Uni
+	-- Operaciones sobre enteros
 	= Negativo   
+	-- Operaciones sobre lienzos
 	| Tras   
+	| Rot
+	-- Operaciones sobre booleanos       
 	| Not
-	| Rot       
 	deriving (Eq, Show)
+
 
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
+
+agregarTipos :: Tipo -> [String] -> [(Tipo, String)]
+agregarTipos t lis = map (mezclar t) lis
+	where
+		mezclar t str = (t, str)
+
+--tipoExp :: Expr -> Tipo
+--tipoExp (Binaria)

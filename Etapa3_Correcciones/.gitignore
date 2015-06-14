@@ -6,3 +6,4 @@ Lexer.o
 SymbolTable.hi
 SymbolTable.o
 dist/
+Parser.hs
