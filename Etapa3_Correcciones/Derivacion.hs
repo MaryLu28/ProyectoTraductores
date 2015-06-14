@@ -34,7 +34,7 @@ data Instr
 data Expr
 	= Binaria     Bin   Expr  Expr
 	| Unaria      Uni    Expr
-	| LienzoC     Expr
+	| LienzoC     String
 	| ConstBool   Bool
 	| ConstEntero Int
 	| Variable 	  String

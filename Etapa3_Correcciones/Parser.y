@@ -162,10 +162,10 @@ Expr
         | false                                 {ConstBool False}
         | num                                   {ConstEntero $1}
         | var                                   {Variable $1}
-        | "< >"                                 {LienzoC $1}
-        | "<|>"                                 {LienzoC $1}
-        | "<\>"                                 {LienzoC $1}
-        | "</>"                                 {LienzoC $1}
-        | "<_>"                                 {LienzoC $1}
-        | "<->"                                 {LienzoC $1}
+        | "< >"                                 {LienzoC " "}
+        | "<|>"                                 {LienzoC "|"}
+        | "<\>"                                 {LienzoC "\\"}
+        | "</>"                                 {LienzoC "/"}
+        | "<_>"                                 {LienzoC "_"}
+        | "<->"                                 {LienzoC "-"}
         | '#'                                   {LienzoVacio}
