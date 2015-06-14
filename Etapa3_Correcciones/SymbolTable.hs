@@ -27,7 +27,6 @@ desempilar (x:xs) = xs
 desempilar' :: Pila -> Map.Map String Tipo
 desempilar' (x:xs) = x
 
-{-
-extractType :: Map.Map String Tipo -> Tipo 
-extractype m  = Tipo
--}
+buscar :: String -> Map.Map String Tipo -> Maybe Tipo
+buscar s m = Map.lookup s m
+
