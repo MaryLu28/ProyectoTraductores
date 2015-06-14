@@ -1,5 +1,14 @@
 module SymbolTable
-where
+( Pila
+, Tipo(..)
+, mapaNuevo
+, insertar
+, empilar
+, desempilar
+, desempilar'
+, buscar
+, buscarCompleto
+) where
 
 import 	qualified Data.Map as M
 import Data.Maybe 
@@ -14,7 +23,7 @@ type Mapa = M.Map String Tipo
 
 type Pila = [Mapa]
 
-st = M.empty :: Mapa
+mapaNuevo = M.empty :: Mapa
 stack = []
 
 -- Insertar en el mapa actual
@@ -32,11 +41,11 @@ desempilar (x:xs) = xs
 desempilar' :: Pila -> Mapa
 desempilar' (x:xs) = x
 
-buscar :: String -> Mapa -> Maybe Tipo
-buscar s m = M.lookup s m
+buscar :: String -> Pila -> Maybe Tipo
+buscar s (x:xs) = M.lookup s x
 
-class Process a where
-	process :: a -> Pila -> Pila
- 
---instance Process Programa where
---	process (Programa ins) ini = process ins (st:ini)
+buscarCompleto :: String -> Pila -> Maybe Tipo
+buscarCompleto _ [] = Nothing
+buscarCompleto s pila@(x:xs) = case buscar s pila of
+	Just t -> Just t
+	Nothing -> buscarCompleto s xs
