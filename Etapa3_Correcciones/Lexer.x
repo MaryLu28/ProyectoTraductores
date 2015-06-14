@@ -34,8 +34,8 @@ tokens :-
     "]"                         {tok (\p s -> TokenRclasp p)}
 
     ----- Entrada y Salida -----
-    read           				{ tok (\p s -> TokenRead p)}
-	write           			{ tok (\p s -> TokenWrite p)}
+    read           				{tok (\p s -> TokenRead p)}
+	write           			{tok (\p s -> TokenWrite p)}
 
     ----- Lienzos -----
     "<"[\/\\\|\-\_\ ]">"   		{tok (\p s -> TokenCanvas p)}
@@ -146,7 +146,7 @@ data Token =
 			| TokenWrite AlexPosn
 
 		----- Tipos definidos ------
-			|TokenVar AlexPosn String 
-			|TokenInt AlexPosn Int
+			| TokenVar AlexPosn String 
+			| TokenInt AlexPosn Int
 			deriving (Eq,Show)
 }

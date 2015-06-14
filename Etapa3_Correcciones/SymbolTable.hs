@@ -1,32 +1,42 @@
 module SymbolTable
 where
 
-import 	qualified Data.Map as Map
+import 	qualified Data.Map as M
 import Data.Maybe 
 --import Lexer
---import Derivacion
+import Derivacion
 --import Parser
 
 data Tipo = Entero | Booleano | Lienzo 
     deriving (Show) 
 
-st = Map.empty
+type Mapa = M.Map String Tipo
+
+type Pila = [Mapa]
+
+st = M.empty :: Mapa
 stack = []
 
-insertar :: String -> Tipo -> Map.Map String Tipo -> Map.Map String Tipo
-insertar s t m = Map.insert s t m
+-- Insertar en el mapa actual
+insertar :: String -> Tipo -> Pila -> Pila
+insertar s t (m:ms) = (M.insert s t m) : ms
 
-type Pila = [Map.Map String Tipo]
-
-empilar :: Map.Map String Tipo -> Pila -> Pila
+empilar :: Mapa -> Pila -> Pila
 empilar m p = m:p
 
+-- Desempilar retornando la pila restante
 desempilar :: Pila -> Pila
 desempilar (x:xs) = xs
 
-desempilar' :: Pila -> Map.Map String Tipo
+-- Desempila retornando lo desempilado
+desempilar' :: Pila -> Mapa
 desempilar' (x:xs) = x
 
-buscar :: String -> Map.Map String Tipo -> Maybe Tipo
-buscar s m = Map.lookup s m
+buscar :: String -> Mapa -> Maybe Tipo
+buscar s m = M.lookup s m
 
+class Process a where
+	process :: a -> Pila -> Pila
+ 
+--instance Process Programa where
+--	process (Programa ins) ini = process ins (st:ini)

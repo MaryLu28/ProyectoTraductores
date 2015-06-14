@@ -1,0 +1,8 @@
+Derivacion.hi
+Derivacion.o
+Lexer.hi
+Lexer.hs
+Lexer.o
+SymbolTable.hi
+SymbolTable.o
+dist/
