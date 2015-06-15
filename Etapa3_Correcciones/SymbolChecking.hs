@@ -42,23 +42,77 @@ instance Process Instr where
             extra = "Variable " ++ show s ++ " no existe en este alcance."
             extra2 = "Instruccion Read espera tipo Int o Bool pero obtuvo tipo Canvas." 
     -- Como procesar Write
-    --process (Write expr) res@(Resultado (st, errs)) =
-    --  case ST.buscarCompleto s st of
-    --      Just t -> case t of
-    --          ST.Entero -> Resultado (st, extra2:errs)
-    --          ST.Booleano -> Resultado (st, extra2:errs)
-    --          ST.Lienzo -> res
-    --      Nothing -> process expr (Resultado (st, extra:errs))
-    --  where
-    --      extra = "Variable " ++ show s ++ " no existe en este alcance."
-    --      extra2 = "Variable " ++ show s ++ " no es de tipo valido para Write."
-
-    --process (Cond expr [ins1] [ins2]) res@(Resultado (st, errs)) = 
-
-
---  process (While expr [ins]) =
---  process (For expr1 expr2 [ins]) =
---  process (ForIndex s expr1 expr2 [ins]) =
+    process (Write expr) res@(Resultado (st, errs)) =
+      case tipoExpr expr res of
+            Just t -> case t of
+                Int -> Resultado (st, extra:errs)
+                Bool -> Resultado (st, extra:errs)
+                Canvas -> process expr res
+            Nothing -> process expr res
+      where
+            extra = "Instruccion Write espera tipo Canvas pero obtuvo tipo " ++
+                show (tipoExpr expr res) ++ "."
+    -- Como procesar un condicional
+    process (Cond expr ins1 ins2) res@(Resultado (st, errs)) = -- esta bien?
+        case tipoExpr expr res of
+            Just t -> case t of
+                Int -> Resultado (st, extra:errs)
+                Canvas -> Resultado (st, extra:errs)
+                Bool -> process ins2 . process ins1 . process expr $ res 
+            Nothing -> process expr res
+        where
+            extra = "Condicional espera expresion tipo Bool pero obtuvo tipo " ++ 
+                show (tipoExpr expr res) ++ "."
+    -- Como procesar un while
+    process (While expr ins) res@(Resultado (st, errs)) =
+        case tipoExpr expr res of
+            Just t -> case t of
+                Int -> Resultado (st, extra:errs)
+                Canvas -> Resultado (st, extra:errs)
+                Bool -> process ins . process expr $ res ---------- esta bien?
+            Nothing -> process expr res
+        where
+            extra = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+                show (tipoExpr expr res) ++ "."
+    -- Como procesar un for
+    --process (For expr1 expr2 ins) res@(Resultado (st, errs)) = ----- esta bien?
+    --    case tipoExpr expr1 res of
+    --        Nothing -> process expr1 res
+    --        Just t1 -> case t1 of
+    --            Canvas -> Resultado (st, extra1:errs)
+    --            Bool -> Resultado (st, extra1:errs)
+    --            Int -> case tipoExpr expr2 res of
+    --                Just Nothing -> process expr1 res
+    --                Just t2 -> case t2 of
+    --                    Canvas -> Resultado (st, extra2:errs)
+    --                    Bool -> Resultado (st, extra2:errs)
+    --                    Int -> process ins res
+    --                where
+    --                    extra2 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+    --                        show (tipoExpr expr2 res) ++ "."
+    --            where
+    --                extra1 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+    --                    show (tipoExpr expr1 res) ++ "."
+    -- Como procesar un ForIndex
+    -- process (ForIndex s expr1 expr2 ins) res@(Resultado (st, errs)) =
+        --case tipoExpr expr1 res of
+    --        Nothing -> process expr1 res
+    --        Just t1 -> case t1 of
+    --            Canvas -> Resultado (st, extra1:errs)
+    --            Bool -> Resultado (st, extra1:errs)
+    --            Int -> case tipoExpr expr2 res of
+    --                Just Nothing -> process expr1 res
+    --                Just t2 -> case t2 of
+    --                    Canvas -> Resultado (st, extra2:errs)
+    --                    Bool -> Resultado (st, extra2:errs)
+    --                    Int -> process ins res
+    --                where
+    --                    extra2 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+    --                        show (tipoExpr expr2 res) ++ "."
+    --            where
+    --                extra1 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+    --                    show (tipoExpr expr1 res) ++ "."
+    -- Como procesar un bloque
     process (Bloque decl ins) res@(Resultado (st, errs)) =
         process ins . process decl $ res
 
@@ -67,7 +121,7 @@ instance Process Expr where
     -- Como procesar operaciones binarias
     process (Binaria bin expr1 expr2) res@(Resultado (st, errs)) =
         case compatibleBinExp bin expr1 expr2 res of
-            Just _ -> res
+            Just _ -> process expr2 . process expr1 $ res
             Nothing -> Resultado (st, extra:errs)
         where 
             extra = "Operador " ++ show bin ++ " no funciona con tipo " ++
@@ -75,7 +129,7 @@ instance Process Expr where
     -- Como procesar operaciones unaria
     process (Unaria uni expr) res@(Resultado (st, errs)) =
         case compatibleUnExp uni expr res of
-            Just _ -> res
+            Just _ -> process expr res
             Nothing -> Resultado (st, extra:errs)
         where 
             extra = "Operador " ++ show uni ++ " no funciona con tipo " ++
@@ -119,7 +173,7 @@ tipoExpr (Unaria op e) res = compatibleUnExp op e res
 tipoExpr (ConstEntero _) _ = Just Int
 tipoExpr (ConstBool _) _ = Just Bool
 tipoExpr (LienzoC _) _ = Just Canvas
--- tipoExpr (VarExp (Identifier iden)) res@(Resultado (st, errs)) =
+----------- tipoExpr (Variable (Identifier iden)) res@(Resultado (st, errs)) =
 
 -- chequea el tipo de las expresiones binarias
 compatibleBinExp :: Bin -> Expr -> Expr -> Resultado -> Maybe Tipo
