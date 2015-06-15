@@ -7,3 +7,11 @@ SymbolTable.hi
 SymbolTable.o
 dist/
 Parser.hs
+Main
+Main.hi
+Main.o
+Parser.hi
+Parser.o
+SymbolChecking.hi
+SymbolChecking.o
+

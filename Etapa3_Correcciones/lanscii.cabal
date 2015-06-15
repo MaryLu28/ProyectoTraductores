@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 
 executable lanscii
   main-is:             Main.hs
-  other-modules:       Lexer, Derivacion, Parser
+  other-modules:       Lexer, Derivacion, Parser, SymbolTable, SymbolChecking
   -- other-extensions:
   build-depends:       base,
                        array >=0.5,
@@ -28,6 +28,7 @@ executable lanscii
                        transformers >=0.4.2.0
   build-tools:         alex,
                        happy
-                       
+  default-extensions: 
+                       FlexibleInstances
   -- hs-source-dirs:
   default-language:    Haskell2010

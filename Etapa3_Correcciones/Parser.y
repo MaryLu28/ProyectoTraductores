@@ -168,4 +168,4 @@ Expr
         | "</>"                                 {LienzoC "/"}
         | "<_>"                                 {LienzoC "_"}
         | "<->"                                 {LienzoC "-"}
-        | '#'                                   {LienzoVacio}
+        | '#'                                   {LienzoC ""}

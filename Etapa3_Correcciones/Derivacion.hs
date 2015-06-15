@@ -7,6 +7,7 @@ module Derivacion
 , Uni(..)
 , Tipo(..)
 , parseError
+, agregarTipos
 ) where
 
 import Data.List
@@ -18,6 +19,7 @@ data Tipo
 	= Int
 	| Canvas
 	| Bool
+	deriving (Eq, Show)
 
 data Declaracion
 	= Entero [String]
@@ -43,7 +45,6 @@ data Expr
 	| ConstBool   Bool
 	| ConstEntero Int
 	| Variable 	  String
-	| LienzoVacio	
 	deriving (Eq, Show)
 
 data Bin
