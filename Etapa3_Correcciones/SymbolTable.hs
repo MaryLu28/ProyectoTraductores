@@ -1,6 +1,7 @@
 module SymbolTable
 where
 
+import System.IO
 import 	qualified Data.Map as Map
 import Data.Maybe 
 --import Lexer
@@ -30,3 +31,8 @@ desempilar' (x:xs) = x
 buscar :: String -> Map.Map String Tipo -> Maybe Tipo
 buscar s m = Map.lookup s m
 
+imprimirM :: Map.Map String Tipo -> String
+imprimirM m = Map.showTree m
+
+imprimirP :: Pila -> IO()
+imprimirP (x:xs) =  putStrLn $ (imprimirM x) ++ (imprimirM (desempilar' xs))
