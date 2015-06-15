@@ -15,8 +15,5 @@ como el tipo del identificador. Además se utlizaron dos pilas, una para almacen
 los diccionarios y otra para guardar los errores.
 
 El proyecto se encuentra en estado incompleto debido a que no hace la impresión
-correspondiente a la línea y columna de las declaraciones
-Además presenta _
-
-
-
+correspondiente a la línea y columna de las declaraciones. Además, no se logra 
+mostrar de una forma correcta los elementos almacenados en la tabla de símbolos.
