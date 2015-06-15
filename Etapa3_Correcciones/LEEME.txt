@@ -14,6 +14,6 @@ diccionario cuya clave es el string que representa al identificador y el valor
 como el tipo del identificador. Además se utlizaron dos pilas, una para almacenar 
 los diccionarios y otra para guardar los errores.
 
-El proyecto se encuentra en estado incompleto debido a que no hace la impresión
-correspondiente a la línea y columna de las declaraciones. Además, no se logra 
-mostrar de una forma correcta los elementos almacenados en la tabla de símbolos.
+El proyecto se encuentra en estado incompleto debido a que no realiza ningún tipo
+de impresión, no se logra mostrar el contenido de la tabla de símbolos ni los 
+errores de parseo o de declaración. 
