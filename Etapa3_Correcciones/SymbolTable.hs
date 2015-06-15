@@ -11,10 +11,9 @@ module SymbolTable
 ) where
 
 import 	qualified Data.Map as M
+import System.IO
 import Data.Maybe 
---import Lexer
 import Derivacion
---import Parser
 
 type Mapa = M.Map String Tipo
 
@@ -46,3 +45,9 @@ buscarCompleto _ [] = Nothing
 buscarCompleto s pila@(x:xs) = case buscar s pila of
 	Just t -> Just t
 	Nothing -> buscarCompleto s xs
+
+imprimirM :: Map.Map String Tipo -> String
+imprimirM m = Map.showTree m
+
+imprimirP :: Pila -> IO()
+imprimirP (x:xs) =  putStrLn $ (imprimirM x) ++ (imprimirM (desempilar' xs))
