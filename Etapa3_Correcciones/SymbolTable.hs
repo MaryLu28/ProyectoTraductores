@@ -8,6 +8,7 @@ module SymbolTable
 , desempilar'
 , buscar
 , buscarCompleto
+--, imprimirP
 ) where
 
 import 	qualified Data.Map as M
@@ -46,8 +47,8 @@ buscarCompleto s pila@(x:xs) = case buscar s pila of
 	Just t -> Just t
 	Nothing -> buscarCompleto s xs
 
-imprimirM :: Map.Map String Tipo -> String
-imprimirM m = Map.showTree m
+imprimirM :: Mapa -> String
+imprimirM m = M.showTree m
 
-imprimirP :: Pila -> IO()
-imprimirP (x:xs) =  putStrLn $ (imprimirM x) ++ (imprimirM (desempilar' xs))
+--imprimirP :: Pila -> IO()
+--imprimirP (x:xs) =  putStrLn $ (imprimirM x) ++ (imprimirM xs)

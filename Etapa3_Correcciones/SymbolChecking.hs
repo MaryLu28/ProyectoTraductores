@@ -1,5 +1,7 @@
 module SymbolChecking
-where
+( Process(..)
+, Resultado(..)
+)where
 
 import qualified SymbolTable as ST
 import Derivacion
@@ -53,7 +55,7 @@ instance Process Instr where
             extra = "Instruccion Write espera tipo Canvas pero obtuvo tipo " ++
                 show (tipoExpr expr res) ++ "."
     -- Como procesar un condicional
-    process (Cond expr ins1 ins2) res@(Resultado (st, errs)) = -- esta bien?
+    process (Cond expr ins1 ins2) res@(Resultado (st, errs)) =
         case tipoExpr expr res of
             Just t -> case t of
                 Int -> Resultado (st, extra:errs)
@@ -69,30 +71,30 @@ instance Process Instr where
             Just t -> case t of
                 Int -> Resultado (st, extra:errs)
                 Canvas -> Resultado (st, extra:errs)
-                Bool -> process ins . process expr $ res ---------- esta bien?
+                Bool -> process ins . process expr $ res
             Nothing -> process expr res
         where
             extra = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
                 show (tipoExpr expr res) ++ "."
     -- Como procesar un for
-    --process (For expr1 expr2 ins) res@(Resultado (st, errs)) = ----- esta bien?
-    --    case tipoExpr expr1 res of
-    --        Nothing -> process expr1 res
-    --        Just t1 -> case t1 of
-    --            Canvas -> Resultado (st, extra1:errs)
-    --            Bool -> Resultado (st, extra1:errs)
-    --            Int -> case tipoExpr expr2 res of
-    --                Just Nothing -> process expr1 res
-    --                Just t2 -> case t2 of
-    --                    Canvas -> Resultado (st, extra2:errs)
-    --                    Bool -> Resultado (st, extra2:errs)
-    --                    Int -> process ins res
-    --                where
-    --                    extra2 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
-    --                        show (tipoExpr expr2 res) ++ "."
-    --            where
-    --                extra1 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
-    --                    show (tipoExpr expr1 res) ++ "."
+    process (For expr1 expr2 ins) res@(Resultado (st, errs)) = ----- esta bien?
+        case tipoExpr expr1 res of
+            Nothing -> process expr1 res
+            Just t1 -> case t1 of
+                Canvas -> Resultado (st, extra1:errs)
+                Bool -> Resultado (st, extra1:errs)
+                Int -> case tipoExpr expr2 res of
+                    Nothing -> process expr2 res
+                    Just t2 -> case t2 of
+                        Canvas -> Resultado (st, extra2:errs)
+                        Bool -> Resultado (st, extra2:errs)
+                        Int -> process ins res
+                    where
+                        extra2 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+                            show (tipoExpr expr2 res) ++ "."
+                where
+                    extra1 = "Interaccion espera expresion tipo Bool pero obtuvo tipo " ++ 
+                        show (tipoExpr expr1 res) ++ "."
     -- Como procesar un ForIndex
     -- process (ForIndex s expr1 expr2 ins) res@(Resultado (st, errs)) =
         --case tipoExpr expr1 res of
@@ -114,7 +116,7 @@ instance Process Instr where
     --                    show (tipoExpr expr1 res) ++ "."
     -- Como procesar un bloque
     process (Bloque decl ins) res@(Resultado (st, errs)) =
-        process ins . process decl $ res
+        process ins . process decl $ Resultado (ST.empilar ST.mapaNuevo st, errs)
 
 -- Como procesar una expresion
 instance Process Expr where
