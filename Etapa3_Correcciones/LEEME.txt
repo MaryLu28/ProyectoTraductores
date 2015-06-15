@@ -1,0 +1,22 @@
+------------------------------------------------------------------------------
+--	Traductores e Interpretadores
+--	Abril - Junio 2015
+--	Lanscii Etapa 3
+--	Integrantes: 
+--	Maria Lourdes Garcia Florez 10-10264
+--	Sahid Gabriel Reyes Tabja 10-10603
+------------------------------------------------------------------------------
+
+El proyecto está implementado en Haskell usando la herramienta Alex con el 
+wrapper Posn para el Lexer y Happy para el Parser. 
+En cuanto a las decisiones de implementación, se utilizó Data.Map para crear un 
+diccionario cuya clave es el string que representa al identificador y el valor 
+como el tipo del identificador. Además se utlizaron dos pilas, una para almacenar 
+los diccionarios y otra para guardar los errores.
+
+El proyecto se encuentra en estado incompleto debido a que no hace la impresión
+correspondiente a la línea y columna de las declaraciones
+Además presenta _
+
+
+
