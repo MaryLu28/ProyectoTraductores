@@ -1,0 +1,75 @@
+------------------------------------------------------------------------------
+--	Traductores e Interpretadores
+--	Abril - Junio 2015
+--	Lanscii Etapa 3
+--	Integrantes: 
+--	Maria Lourdes Garcia Florez 10-10264
+--	Sahid Gabriel Reyes Tabja 10-10603
+------------------------------------------------------------------------------
+
+Análisis teórico práctico
+
+1. Sea Gi la gramática recursiva-izquierda ({S},{a},{S -> Sa, S ->lambda },S) 
+y sea Gd la gramática recursiva-derecha ({S},{a},{S -> aS, S ->lambda },S). Ambas
+generan el lenguaje denotado por la expresión regular a*, i.e. el lenguaje L(a*).
+
+	a. Muestre que ambas gramáticas son LR(1) y construya sus analizadores
+	sintácticos respectivos: Sus autómatas de pila.
+
+		Ambos son SLR(1) ya que no hay conflictos de shift/reduce.
+		Ver imágenes: Pregunta_1_a_1 y Pregunta_1_a_2.
+
+	b. Explique brevemente la diferencia existente entre ambos analizadores
+	en términos de espacio, esto es: el tamaño de sus tablas, la cantidad
+	de pila utilizada para reconocer cada frase de L(a*) y de tiempo
+	(cantidad de movimientos realizados por el autómata de pila para
+	reconocer cada frase)
+
+		El autómata de prefijos viables de la gramática Gd posee mas estados que el
+		autómada para Gi, en cuanto a términos de espacio de la pila utilizada, el
+		autómata para Gi ocupa un máximo de 3 estados en la pila, mientras que
+		para Gd a medida que la palabra crece, el tamaño de la pila aumenta.
+
+		En cuanto a la cantidad de movimientos, ambas gramáticas utilizan la misma
+		cantidad para reconocer la palabra, ambas de 3 movimientos para reconocer la 
+		palabra vacía, y a medida que incrementa la entradam la cantidad de movimientos
+		aumenta de 2 en 2,
+
+		Ver imágenes: Pregunta_1_b_1 y Pregunta_1_b_2.
+
+2. Sea G la gramática ({Instr},{;,IS},{Instr -> Instr ; Instr, Instr -> IS},Instr).
+
+	a. Muestre que G no es una gramática LR(1), intentando construir el
+	autómata de prefijos viables y determinando en cuál estado existen
+	conflictos.
+
+		G no es una gramática LR(1) ya que posee conflictos de shift/reduce.
+		Ver imágenes: Pregunta_2_a_1 y Pregunta_2_a_2.
+
+	b. Considere las dos alternativas para la eliminación de conflictos (en
+	favor del shift o en favor del reduce en caso de un conflicto shift-reduce,
+	o en favor de una producción o de otra en caso de un conflicto reduce-
+	reduce). Para cada una de las alternativas de eliminación de conflicto,
+	muestre la secuencia de reconocimiento de la frase IS;IS;IS indicando
+	la secuencia de producciones reducidas. ¿A qué corresponde cada una
+	de las alternativas: a asociar el operador ; hacia la izquierda o hacia
+	la derecha?
+
+		En el caso del reconocimiento de la frase IS;IS;IS a favor del shift
+		se puede observar que el operador ; asocia hacia la derecha, ya que
+		consume de una vez toda la palabra. Mientras que al reconocer la palabra a 
+		favor del reduce, se puede apreciar la asociatividad izquierda del operador
+		; ya que éste lee IS;IS pero al llegar al segundo punto y coma, se queda 
+		"esperando" formando en el arbol de derivación la expresión Instr;Instr para
+		luego leer el último ; y terminar de construir la gramática con el último 
+		;Instr
+
+		Ver imágenes: Pregunta_2_b_1 y Pregunta_2_b_2.
+
+3. ¿Existe alguna forma, diferente a la de utilizar las propiedades de preceden-
+cia de operadores de la herramienta escogida, para definir la precedencia
+de operadores del lenguaje Lanscii? Explique.
+
+	A parte de las propiedades de asociatividad propias de Happy, también se puede
+	establecer la asociatividad de forma manual al momento de escribir la gramática,
+	esto es, reducir la ambigüedad de la misma.
