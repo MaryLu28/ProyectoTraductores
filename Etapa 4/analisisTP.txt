@@ -1,0 +1,59 @@
+------------------------------------------------------------------------------
+--	Traductores e Interpretadores
+--	Abril - Junio 2015
+--	Lanscii Etapa 4
+--	Integrantes: 
+--	Maria Lourdes Garcia Florez 10-10264
+--	Sahid Gabriel Reyes Tabja 	10-10603
+------------------------------------------------------------------------------
+
+Análisis teórico práctico
+
+• Análisis Lexicográfico.
+• Análisis Sintáctico.
+• Tabla de símbolos y chequeo de tipos.
+• Intérprete y chequeos dinámicos.
+
+1)  ¿Cuál es la relación existente entre cada una y lo estudiado en la teoría del curso 
+    CI3725: Traductores e Interpretadores?
+
+		En la teoría se ha visto cómo reconocer gramáticas pertenecienes a lenguajes regulares 
+	y libres de contexto, conociendo el alfabeto del lenguaje.
+
+		El análisis lexicográfico, reconoce los tokens de un lenguaje, asi como también expresiones 
+	regulares, lo que permite en cuanto a la teoría definir y reconocer el alfabeto de una 
+	gramática, ésto se puede hacer manualmente con un autómata finito, pero en la práctica esto 
+	se puede realizar mediante el Lexer, en éste caso, la herramienta Alex. 
+
+		Para el analisis sintáctico, se utilizan los tokens reconocidos por el lexer y se les da un 
+	significado, permitiendo crear una gramática y partir de ella generar el autómata que lo reconozca, 
+	definiendo un conjunto de símbolos terminales y no-terminales. Dicha gramática es muy similar a la 
+	vista en clase, con la diferencia de que ésta puede ser ambigua ya que las las herrambientas utili-
+	zadas para la implementación del intérprete permite definir la precedencia y asociatividad de los 
+	operadores.
+
+		En la parte teórica del curso, se realizó de forma manual un parser, permitiendo crear un 
+	autómata de prefijos viables, con la intención de identificar las reglas de la gramática y veri-
+	ficar si existen conflictos según el tipo de gramática ya sea LR(0) o SLR(1). En la práctica 
+	mediente el uso de la herramienta Happy facilita esta verificación, generando un árbol sintáctico 
+	de derivación.
+
+		Para el caso del chequeo dinámico de tipos, éste requiere de una tabla de símbolos para 
+	reconocer el alcance de las variables, de esta forma se puede definir si las expresiones tienen 
+	sentido semántico.
+
+		Por último el intérprete recorre el árbol generado previamente por Happy, para luego ejecutar 
+	las instrucciones verificando las reglas del lenguaje. 
+
+2)  ¿Qué elementos permiten definir -teóricamente- un interpretador de un lenguaje de programación?
+
+		Con respecto a lo visto en el curso, se puede inferir que un lenguaje de programación, como 
+	al ser un lenguaje, éste puede ser reconocido, para ello se requiere un alfabeto, identificar sus 
+	símbolos terminales y definirse una gramática con su conjunto de símbolos no-terminales, para luego 
+	ser representado por su autómata correspondiente, verificar que no existan conflictos para luego
+	parsear un conjunto de expresiones propias del lenguaje. 
+
+		El parser que permite reconocer si las expresiones concuerdan con la estructura del lenguaje 
+	y por último el chequeo de tipo y el intérprete que define si se reconcoce el lenguaje para 
+	después ser ejecutadas sus instrucciones.
+
