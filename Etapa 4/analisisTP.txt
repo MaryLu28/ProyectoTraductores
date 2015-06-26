@@ -23,37 +23,33 @@ Análisis teórico práctico
 		El análisis lexicográfico, reconoce los tokens de un lenguaje, asi como también expresiones 
 	regulares, lo que permite en cuanto a la teoría definir y reconocer el alfabeto de una 
 	gramática, ésto se puede hacer manualmente con un autómata finito, pero en la práctica esto 
-	se puede realizar mediante el Lexer, en éste caso, la herramienta Alex. 
+	se lleva a cabo mediante un Lexer, para el caso particular de este proyecto, la herramienta Alex
+	para Haskell. 
 
 		Para el analisis sintáctico, se utilizan los tokens reconocidos por el lexer y se les da un 
 	significado, permitiendo crear una gramática y partir de ella generar el autómata que lo reconozca, 
 	definiendo un conjunto de símbolos terminales y no-terminales. Dicha gramática es muy similar a la 
-	vista en clase, con la diferencia de que ésta puede ser ambigua ya que las las herrambientas utili-
-	zadas para la implementación del intérprete permite definir la precedencia y asociatividad de los 
+	vista en clase, con la diferencia de que ésta puede ser ambigua ya que las herrambientas utilizadas
+	para la implementación del intérprete permite definir la precedencia y asociatividad de los 
 	operadores.
 
 		En la parte teórica del curso, se realizó de forma manual un parser, permitiendo crear un 
 	autómata de prefijos viables, con la intención de identificar las reglas de la gramática y veri-
-	ficar si existen conflictos según el tipo de gramática ya sea LR(0) o SLR(1). En la práctica 
-	mediente el uso de la herramienta Happy facilita esta verificación, generando un árbol sintáctico 
-	de derivación.
+	ficar si existen conflictos según su tipo, ya sea LR(0) o SLR(1). En la práctica mediante el uso de
+	la herramienta Happy facilita esta verificación, generando un árbol sintáctico de derivación.
 
 		Para el caso del chequeo dinámico de tipos, éste requiere de una tabla de símbolos para 
-	reconocer el alcance de las variables, de esta forma se puede definir si las expresiones tienen 
-	sentido semántico.
+	almacenar y verificar el alcance de las variables, de esta forma se puede definir si las expresiones 
+	tienen sentido semántico, siendo éste asociado a un decididor, capaz de decidir si las instrucciones
+	a leer forman parte del lenguaje o no.
 
-		Por último el intérprete recorre el árbol generado previamente por Happy, para luego ejecutar 
+		Por último el intérprete recorre el árbol generado previamente por Happy, para después ejecutar 
 	las instrucciones verificando las reglas del lenguaje. 
 
 2)  ¿Qué elementos permiten definir -teóricamente- un interpretador de un lenguaje de programación?
 
-		Con respecto a lo visto en el curso, se puede inferir que un lenguaje de programación, como 
-	al ser un lenguaje, éste puede ser reconocido, para ello se requiere un alfabeto, identificar sus 
-	símbolos terminales y definirse una gramática con su conjunto de símbolos no-terminales, para luego 
-	ser representado por su autómata correspondiente, verificar que no existan conflictos para luego
-	parsear un conjunto de expresiones propias del lenguaje. 
-
-		El parser que permite reconocer si las expresiones concuerdan con la estructura del lenguaje 
-	y por último el chequeo de tipo y el intérprete que define si se reconcoce el lenguaje para 
-	después ser ejecutadas sus instrucciones.
-
+		Con respecto a lo visto en el curso, se puede inferir que un lenguaje de programación, al ser un 
+	lenguaje, éste puede ser reconocido, para ello se requiere un alfabeto, identificar sus símbolos 
+	terminales y definirse una gramática con su conjunto de símbolos no-terminales, para luego ser repre-
+	sentado por su máquina correspondiente y verificar que no existan conflictos. De esta forma se puede 
+	establecer un decididor con la finalidad de parsear un conjunto de expresiones propias del lenguaje.
